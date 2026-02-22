@@ -26,16 +26,21 @@ const TouristSpotDetail = () => {
       <Navbar />
 
       {/* Hero */}
-      <div className={`relative h-[280px] lg:h-[420px] bg-gradient-to-br ${spot.gradient} flex items-center justify-center`}>
-        <div className="text-center z-10">
-          <div className="text-[80px] lg:text-[120px] mb-2">{spot.emoji}</div>
-          {spot.badge && (
-            <span className="bg-foreground/40 backdrop-blur-md text-primary-foreground text-xs font-bold px-3 py-1 rounded-full">
-              {spot.badge}
-            </span>
-          )}
+      <div className="relative h-[280px] lg:h-[420px] overflow-hidden">
+        <img
+          src={spot.photos[0]}
+          alt={spot.name}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+          <div className="text-center z-10">
+            {spot.badge && (
+              <span className="bg-foreground/40 backdrop-blur-md text-primary-foreground text-xs font-bold px-3 py-1 rounded-full">
+                {spot.badge}
+              </span>
+            )}
+          </div>
         </div>
-        <div className="absolute inset-0 bg-black/20" />
       </div>
 
       {/* Content */}

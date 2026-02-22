@@ -22,8 +22,18 @@ const TouristSpots = () => {
         <div className="grid grid-cols-4 gap-5">
           {touristSpotsDetailed.map((spot) => (
             <Link to={`/spot/${spot.slug}`} key={spot.id} className="bg-card rounded-[20px] overflow-hidden shadow-md hover:-translate-y-1.5 hover:shadow-lg transition-all cursor-pointer block">
-              <div className={`h-40 flex items-center justify-center text-[52px] relative bg-gradient-to-br ${spot.gradient}`}>
-                {spot.emoji}
+              <div className="h-40 relative overflow-hidden">
+                <img
+                  src={spot.photos[0]}
+                  alt={spot.name}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.parentElement!.classList.add('flex', 'items-center', 'justify-center', 'text-[52px]', `bg-gradient-to-br`, spot.gradient.split(' ').join(' '));
+                    e.currentTarget.parentElement!.innerHTML = `<span class="text-[52px]">${spot.emoji}</span>`;
+                  }}
+                />
                 {spot.badge && (
                   <div className="absolute top-3 left-3 bg-foreground/45 backdrop-blur-md text-primary-foreground text-[10px] font-bold px-2.5 py-1 rounded-full">
                     {spot.badge}
@@ -60,8 +70,8 @@ const TouristSpots = () => {
         <div className="flex gap-3 px-4 overflow-x-auto scrollbar-hide pb-2">
           {touristSpotsDetailed.slice(0, 5).map((spot) => (
             <Link to={`/spot/${spot.slug}`} key={spot.id} className="flex-shrink-0 w-40 rounded-2xl overflow-hidden shadow-md bg-card cursor-pointer active:scale-[0.97] transition-transform block">
-              <div className={`w-full h-[100px] flex items-center justify-center text-[40px] bg-gradient-to-br ${spot.gradient}`}>
-                {spot.emoji}
+              <div className="w-full h-[100px] overflow-hidden">
+                <img src={spot.photos[0]} alt={spot.name} className="w-full h-full object-cover" loading="lazy" />
               </div>
               <div className="p-2.5">
                 <div className="text-[13px] font-bold text-primary mb-0.5">{spot.name}</div>

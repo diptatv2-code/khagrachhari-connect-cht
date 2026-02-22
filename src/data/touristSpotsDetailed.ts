@@ -48,9 +48,9 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     coordinates: { lat: 23.0883, lng: 91.9567 },
     highlights: ["১০০ মিটার দীর্ঘ প্রাকৃতিক গুহা", "মশাল দিয়ে প্রবেশ", "ভেতরে ঠান্ডা পানির ধারা", "গুহার শেষে ঝরনা", "সমুদ্রপৃষ্ঠ থেকে ৩০০০ ফুট উচ্চতায়"],
     photos: [
-      "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=800",
-      "https://images.unsplash.com/photo-1504893524553-b855bce32c67?w=800",
-      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Alu_Tila_Guha_khagrachari.jpg/800px-Alu_Tila_Guha_khagrachari.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Inside_view_of_Alutila_mysterious_cave%2C_Khagrachari%2C_Chittagong_Hill_Tracts.JPG/800px-Inside_view_of_Alutila_mysterious_cave%2C_Khagrachari%2C_Chittagong_Hill_Tracts.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Outside_the_Alutila_cave.jpg/800px-Outside_the_Alutila_cave.jpg",
     ],
   },
   {
@@ -77,9 +77,9 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     coordinates: { lat: 23.07, lng: 91.96 },
     highlights: ["প্রায় ৫০ ফুট উঁচু ঝরনা", "বর্ষায় পূর্ণধারায় প্রবাহিত", "গোসল করার সুবিধা", "চারপাশে ঘন বনভূমি"],
     photos: [
-      "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?w=800",
-      "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800",
-      "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=800",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Richhang_falls.jpg/800px-Richhang_falls.jpg",
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0b/d0/5a/a4/richhang-falls.jpg?w=1200&h=1200&s=1",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Risang_waterfall.jpg/800px-Risang_waterfall.jpg",
     ],
   },
   {
@@ -107,9 +107,9 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     coordinates: { lat: 23.3832, lng: 92.2937 },
     highlights: ["১৮০০ ফুট উচ্চতায় মেঘের রাজ্য", "কংলাক ও রুইলুই পাড়া", "অবিস্মরণীয় সূর্যোদয়-সূর্যাস্ত", "আদিবাসী গ্রাম পরিদর্শন", "বাংলাদেশের সবচেয়ে বড় ইউনিয়ন"],
     photos: [
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800",
-      "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800",
-      "https://images.unsplash.com/photo-1465056836900-8f1e940f1a64?w=800",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Sajek_valley.jpg/1280px-Sajek_valley.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Sajek_Valley_Bangladesh.jpg/1280px-Sajek_Valley_Bangladesh.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Sajek_valley_2.jpg/1280px-Sajek_valley_2.jpg",
     ],
   },
   {
@@ -134,9 +134,9 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     gradient: "from-orange-800 to-orange-500",
     highlights: ["৫০ ফুট উচ্চতার বুদ্ধমূর্তি", "৬৫ একর বনভূমি", "ধ্যান কুটির", "শান্ত আধ্যাত্মিক পরিবেশ"],
     photos: [
-      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800",
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800",
-      "https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=800",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Shantipur_Aranya_Kutir.jpg/800px-Shantipur_Aranya_Kutir.jpg",
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/94/c6/b4/shantipur-aranya-kutir.jpg?w=1200&h=1200&s=1",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Panchari_Shantipur_Aranya_Kutir.jpg/800px-Panchari_Shantipur_Aranya_Kutir.jpg",
     ],
   },
   {
@@ -160,9 +160,9 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     gradient: "from-green-800 to-green-400",
     highlights: ["শহরের সবচেয়ে কাছের দর্শনীয় স্থান", "সবুজ মাঠ ও পাহাড়", "পিকনিকের জন্য আদর্শ", "বিনামূল্যে প্রবেশ"],
     photos: [
-      "https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800",
-      "https://images.unsplash.com/photo-1500534623283-312aade485b7?w=800",
-      "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/New_Zealand_Para_Khagrachari.jpg/800px-New_Zealand_Para_Khagrachari.jpg",
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/33/1c/e0/new-zealand-para.jpg?w=1200&h=-1&s=1",
+      "https://i.ytimg.com/vi/Y5GJ1JXqqaM/maxresdefault.jpg",
     ],
   },
   {
@@ -187,9 +187,9 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     gradient: "from-purple-900 to-purple-500",
     highlights: ["১২০৮ ফুট উচ্চতা", "৩০০ সিঁড়ি বেয়ে চূড়ায়", "৩৬০° প্যানোরামিক দৃশ্য", "মেঘের খেলা দেখা যায়"],
     photos: [
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800",
-      "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?w=800",
-      "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=800",
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/e6/53/e9/mayung-kopal.jpg?w=1200&h=1200&s=1",
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/e6/53/df/mayung-kopal.jpg?w=1200&h=1200&s=1",
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/e6/54/04/mayung-kopal.jpg?w=1200&h=1200&s=1",
     ],
   },
   {
@@ -213,9 +213,9 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     gradient: "from-teal-800 to-teal-400",
     highlights: ["রাস্তা থেকে ১৫ মিনিটের হাঁটা", "ট্রেকিং অভিজ্ঞতা", "ঘন সবুজ বনভূমি", "বর্ষায় অসাধারণ"],
     photos: [
-      "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800",
-      "https://images.unsplash.com/photo-1504893524553-b855bce32c67?w=800",
-      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Hajachara_Waterfall.jpg/800px-Hajachara_Waterfall.jpg",
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0f/6e/9a/2c/hajachora-waterfall.jpg?w=1200&h=1200&s=1",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Hajachara_Waterfall_2.jpg/800px-Hajachara_Waterfall_2.jpg",
     ],
   },
   {
@@ -239,9 +239,9 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     gradient: "from-blue-800 to-blue-400",
     highlights: ["স্বচ্ছ পানির প্রাকৃতিক হ্রদ", "নৌকায় ঘুরে বেড়ানো", "পাহাড়ি দৃশ্য", "শান্ত পরিবেশ"],
     photos: [
-      "https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800",
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
-      "https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=800",
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/bd/0a/d7/mayabini-lake.jpg?w=1200&h=1200&s=1",
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/bd/0a/c5/mayabini-lake.jpg?w=1200&h=1200&s=1",
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/bd/0b/0a/mayabini-lake.jpg?w=1200&h=1200&s=1",
     ],
   },
 ];
