@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const navLinks = [
-  { label: "হোম", href: "#home" },
-  { label: "পর্যটন", href: "#tourism" },
-  { label: "সেবাসমূহ", href: "#services" },
-  { label: "হোটেল", href: "#hotels" },
-  { label: "যোগাযোগ", href: "#transport" },
+  { label: "হোম", href: "/" },
+  { label: "পর্যটন", href: "/#tourism" },
+  { label: "সেবাসমূহ", href: "/#services" },
+  { label: "হোটেল", href: "/#hotels" },
+  { label: "ডিরেক্টরি", href: "/directory" },
+  { label: "যোগাযোগ", href: "/#transport" },
 ];
 
 const Navbar = () => {
@@ -26,15 +28,25 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-1.5">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-primary-foreground/80 text-sm font-medium px-4 py-2 rounded-lg hover:bg-primary-foreground/10 hover:text-primary-foreground transition-all"
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) =>
+            link.href.startsWith("/") && !link.href.includes("#") ? (
+              <Link
+                key={link.href}
+                to={link.href}
+                className="text-primary-foreground/80 text-sm font-medium px-4 py-2 rounded-lg hover:bg-primary-foreground/10 hover:text-primary-foreground transition-all"
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-primary-foreground/80 text-sm font-medium px-4 py-2 rounded-lg hover:bg-primary-foreground/10 hover:text-primary-foreground transition-all"
+              >
+                {link.label}
+              </a>
+            )
+          )}
         </div>
 
         <div className="flex gap-2.5 items-center">
@@ -68,16 +80,27 @@ const Navbar = () => {
         </div>
         {mobileOpen && (
           <div className="px-4 pb-3 flex flex-col gap-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="text-primary-foreground/80 text-sm font-medium px-4 py-2.5 rounded-lg hover:bg-primary-foreground/10"
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) =>
+              link.href.startsWith("/") && !link.href.includes("#") ? (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="text-primary-foreground/80 text-sm font-medium px-4 py-2.5 rounded-lg hover:bg-primary-foreground/10"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="text-primary-foreground/80 text-sm font-medium px-4 py-2.5 rounded-lg hover:bg-primary-foreground/10"
+                >
+                  {link.label}
+                </a>
+              )
+            )}
           </div>
         )}
       </div>

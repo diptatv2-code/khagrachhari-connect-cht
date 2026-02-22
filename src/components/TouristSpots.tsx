@@ -1,4 +1,5 @@
-import { touristSpots } from "@/data/content";
+import { Link } from "react-router-dom";
+import { touristSpotsDetailed } from "@/data/touristSpotsDetailed";
 
 const TouristSpots = () => {
   return (
@@ -13,14 +14,14 @@ const TouristSpots = () => {
               খাগড়াছড়ির সেরা প্রাকৃতিক ও ঐতিহাসিক স্থানগুলো এক নজরে
             </div>
           </div>
-          <button className="flex items-center gap-1.5 text-sm text-forest-light font-semibold border-2 border-forest-light px-5 py-2.5 rounded-[10px] hover:bg-forest-light hover:text-primary-foreground transition-all whitespace-nowrap">
+          <Link to="/directory" className="flex items-center gap-1.5 text-sm text-forest-light font-semibold border-2 border-forest-light px-5 py-2.5 rounded-[10px] hover:bg-forest-light hover:text-primary-foreground transition-all whitespace-nowrap">
             সব দেখুন →
-          </button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-4 gap-5">
-          {touristSpots.map((spot) => (
-            <div key={spot.id} className="bg-card rounded-[20px] overflow-hidden shadow-md hover:-translate-y-1.5 hover:shadow-lg transition-all cursor-pointer">
+          {touristSpotsDetailed.map((spot) => (
+            <Link to={`/spot/${spot.slug}`} key={spot.id} className="bg-card rounded-[20px] overflow-hidden shadow-md hover:-translate-y-1.5 hover:shadow-lg transition-all cursor-pointer block">
               <div className={`h-40 flex items-center justify-center text-[52px] relative bg-gradient-to-br ${spot.gradient}`}>
                 {spot.emoji}
                 {spot.badge && (
@@ -31,7 +32,7 @@ const TouristSpots = () => {
               </div>
               <div className="p-4">
                 <div className="text-[15px] font-bold text-primary mb-1">{spot.name}</div>
-                <div className="text-xs text-muted-foreground leading-relaxed">{spot.description}</div>
+                <div className="text-xs text-muted-foreground leading-relaxed">{spot.shortDescription}</div>
                 <div className="flex justify-between items-center mt-2">
                   <div className="text-xs text-muted-foreground/70 flex items-center gap-1">📍 {spot.distance}</div>
                   <div className="text-xs text-muted-foreground font-semibold flex items-center gap-1">
@@ -39,7 +40,7 @@ const TouristSpots = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
@@ -51,14 +52,14 @@ const TouristSpots = () => {
             <span className="w-1 h-5 bg-secondary rounded-sm block" />
             দর্শনীয় স্থান
           </h2>
-          <a href="#" className="text-xs text-forest-light font-semibold border border-forest-light px-2.5 py-1 rounded-full">
+          <Link to="/directory" className="text-xs text-forest-light font-semibold border border-forest-light px-2.5 py-1 rounded-full">
             সব দেখুন
-          </a>
+          </Link>
         </div>
 
         <div className="flex gap-3 px-4 overflow-x-auto scrollbar-hide pb-2">
-          {touristSpots.slice(0, 5).map((spot) => (
-            <div key={spot.id} className="flex-shrink-0 w-40 rounded-2xl overflow-hidden shadow-md bg-card cursor-pointer active:scale-[0.97] transition-transform">
+          {touristSpotsDetailed.slice(0, 5).map((spot) => (
+            <Link to={`/spot/${spot.slug}`} key={spot.id} className="flex-shrink-0 w-40 rounded-2xl overflow-hidden shadow-md bg-card cursor-pointer active:scale-[0.97] transition-transform block">
               <div className={`w-full h-[100px] flex items-center justify-center text-[40px] bg-gradient-to-br ${spot.gradient}`}>
                 {spot.emoji}
               </div>
@@ -70,7 +71,7 @@ const TouristSpots = () => {
                   <span className="text-[11px] text-muted-foreground">({spot.rating})</span>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
