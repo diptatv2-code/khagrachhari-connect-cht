@@ -48,9 +48,9 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     coordinates: { lat: 23.0883, lng: 91.9567 },
     highlights: ["১০০ মিটার দীর্ঘ প্রাকৃতিক গুহা", "মশাল দিয়ে প্রবেশ", "ভেতরে ঠান্ডা পানির ধারা", "গুহার শেষে ঝরনা", "সমুদ্রপৃষ্ঠ থেকে ৩০০০ ফুট উচ্চতায়"],
     photos: [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Alu_Tila_Guha_khagrachari.jpg/800px-Alu_Tila_Guha_khagrachari.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Inside_view_of_Alutila_mysterious_cave%2C_Khagrachari%2C_Chittagong_Hill_Tracts.JPG/800px-Inside_view_of_Alutila_mysterious_cave%2C_Khagrachari%2C_Chittagong_Hill_Tracts.JPG",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Outside_the_Alutila_cave.jpg/800px-Outside_the_Alutila_cave.jpg",
+      "/images/spots/alutila-1.jpg",
+      "/images/spots/alutila-2.jpg",
+      "/images/spots/alutila-3.jpg",
     ],
   },
   {
@@ -77,9 +77,9 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     coordinates: { lat: 23.07, lng: 91.96 },
     highlights: ["প্রায় ৫০ ফুট উঁচু ঝরনা", "বর্ষায় পূর্ণধারায় প্রবাহিত", "গোসল করার সুবিধা", "চারপাশে ঘন বনভূমি"],
     photos: [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Richhang_falls.jpg/800px-Richhang_falls.jpg",
-      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0b/d0/5a/a4/richhang-falls.jpg?w=1200&h=1200&s=1",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Risang_waterfall.jpg/800px-Risang_waterfall.jpg",
+      "/images/spots/richhang-1.jpg",
+      "/images/spots/richhang-2.jpg",
+      "/images/spots/richhang-3.jpg",
     ],
   },
   {
@@ -107,9 +107,9 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     coordinates: { lat: 23.3832, lng: 92.2937 },
     highlights: ["১৮০০ ফুট উচ্চতায় মেঘের রাজ্য", "কংলাক ও রুইলুই পাড়া", "অবিস্মরণীয় সূর্যোদয়-সূর্যাস্ত", "আদিবাসী গ্রাম পরিদর্শন", "বাংলাদেশের সবচেয়ে বড় ইউনিয়ন"],
     photos: [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Sajek_valley.jpg/1280px-Sajek_valley.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Sajek_Valley_Bangladesh.jpg/1280px-Sajek_Valley_Bangladesh.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Sajek_valley_2.jpg/1280px-Sajek_valley_2.jpg",
+      "/images/spots/sajek-1.jpg",
+      "/images/spots/sajek-2.jpg",
+      "/images/spots/sajek-3.jpg",
     ],
   },
   {
@@ -134,9 +134,9 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     gradient: "from-orange-800 to-orange-500",
     highlights: ["৫০ ফুট উচ্চতার বুদ্ধমূর্তি", "৬৫ একর বনভূমি", "ধ্যান কুটির", "শান্ত আধ্যাত্মিক পরিবেশ"],
     photos: [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Shantipur_Aranya_Kutir.jpg/800px-Shantipur_Aranya_Kutir.jpg",
-      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/94/c6/b4/shantipur-aranya-kutir.jpg?w=1200&h=1200&s=1",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Panchari_Shantipur_Aranya_Kutir.jpg/800px-Panchari_Shantipur_Aranya_Kutir.jpg",
+      "/images/spots/shantipur-1.jpg",
+      "/images/spots/shantipur-2.jpg",
+      "/images/spots/shantipur-3.jpg",
     ],
   },
   {
@@ -160,9 +160,9 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     gradient: "from-green-800 to-green-400",
     highlights: ["শহরের সবচেয়ে কাছের দর্শনীয় স্থান", "সবুজ মাঠ ও পাহাড়", "পিকনিকের জন্য আদর্শ", "বিনামূল্যে প্রবেশ"],
     photos: [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/New_Zealand_Para_Khagrachari.jpg/800px-New_Zealand_Para_Khagrachari.jpg",
-      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/33/1c/e0/new-zealand-para.jpg?w=1200&h=-1&s=1",
-      "https://i.ytimg.com/vi/Y5GJ1JXqqaM/maxresdefault.jpg",
+      "/images/spots/nzpara-1.jpg",
+      "/images/spots/nzpara-2.jpg",
+      "/images/spots/nzpara-3.jpg",
     ],
   },
   {
@@ -187,9 +187,9 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     gradient: "from-purple-900 to-purple-500",
     highlights: ["১২০৮ ফুট উচ্চতা", "৩০০ সিঁড়ি বেয়ে চূড়ায়", "৩৬০° প্যানোরামিক দৃশ্য", "মেঘের খেলা দেখা যায়"],
     photos: [
-      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/e6/53/e9/mayung-kopal.jpg?w=1200&h=1200&s=1",
-      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/e6/53/df/mayung-kopal.jpg?w=1200&h=1200&s=1",
-      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/e6/54/04/mayung-kopal.jpg?w=1200&h=1200&s=1",
+      "/images/spots/mayung-1.jpg",
+      "/images/spots/mayung-2.jpg",
+      "/images/spots/mayung-3.jpg",
     ],
   },
   {
@@ -213,9 +213,9 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     gradient: "from-teal-800 to-teal-400",
     highlights: ["রাস্তা থেকে ১৫ মিনিটের হাঁটা", "ট্রেকিং অভিজ্ঞতা", "ঘন সবুজ বনভূমি", "বর্ষায় অসাধারণ"],
     photos: [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Hajachara_Waterfall.jpg/800px-Hajachara_Waterfall.jpg",
-      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0f/6e/9a/2c/hajachora-waterfall.jpg?w=1200&h=1200&s=1",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Hajachara_Waterfall_2.jpg/800px-Hajachara_Waterfall_2.jpg",
+      "/images/spots/hajachara-1.jpg",
+      "/images/spots/hajachara-2.jpg",
+      "/images/spots/hajachara-3.jpg",
     ],
   },
   {
@@ -239,9 +239,9 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     gradient: "from-blue-800 to-blue-400",
     highlights: ["স্বচ্ছ পানির প্রাকৃতিক হ্রদ", "নৌকায় ঘুরে বেড়ানো", "পাহাড়ি দৃশ্য", "শান্ত পরিবেশ"],
     photos: [
-      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/bd/0a/d7/mayabini-lake.jpg?w=1200&h=1200&s=1",
-      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/bd/0a/c5/mayabini-lake.jpg?w=1200&h=1200&s=1",
-      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/bd/0b/0a/mayabini-lake.jpg?w=1200&h=1200&s=1",
+      "/images/spots/mayabini-1.jpg",
+      "/images/spots/mayabini-2.jpg",
+      "/images/spots/mayabini-3.jpg",
     ],
   },
 ];
