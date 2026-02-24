@@ -8,7 +8,7 @@ const serviceLabels: Record<string, { label: string; emoji: string }> = {
   health: { label: "হাসপাতাল ও ক্লিনিক", emoji: "🏥" },
   medicine: { label: "ওষুধের দোকান", emoji: "💊" },
   grocery: { label: "গ্রোসারি", emoji: "🛒" },
-  bank: { label: "ব্যাংক", emoji: "🏦" },
+  banks: { label: "ব্যাংক", emoji: "🏦" },
   atm: { label: "ATM বুথ", emoji: "💳" },
   mfs: { label: "বিকাশ / নগদ", emoji: "📲" },
   school: { label: "স্কুল", emoji: "🏫" },
@@ -20,7 +20,7 @@ const serviceLabels: Record<string, { label: string; emoji: string }> = {
   community: { label: "কমিউনিটি সেন্টার", emoji: "🏛️" },
   hotels: { label: "হোটেল ও আবাসন", emoji: "🏨" },
   restaurant: { label: "রেস্তোরাঁ", emoji: "🍽️" },
-  vehicle: { label: "গাড়ি ভাড়া", emoji: "🚗" },
+  transport: { label: "গাড়ি ভাড়া", emoji: "🚗" },
   bus: { label: "বাস কাউন্টার", emoji: "🚌" },
   tourist: { label: "পর্যটন স্থান", emoji: "🗺️" },
 };
