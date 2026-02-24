@@ -45,7 +45,7 @@ const Index = () => {
       <AppSidebar activePage={activePage} onNavigate={handleNavigate} />
 
       <div className="lg:ml-[268px] flex-1 flex flex-col">
-        <MobileHeader />
+        <MobileHeader activePage={activePage} onNavigate={handleNavigate} />
         <Topbar title={currentTitle} />
 
         <div className="p-[13px] pb-[76px] lg:p-6 lg:pb-6 flex-1">
