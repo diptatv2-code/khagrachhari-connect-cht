@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Tiro+Bangla:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Noto+Serif+Bengali:wght@400;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,60 +6,56 @@
 
 @layer base {
   :root {
-    /* Forest green palette */
-    --background: 40 45% 96%; /* cream #fdf6ec */
-    --foreground: 0 0% 10%; /* text-dark #1a1a1a */
+    --background: 80 5% 96%; /* cream #f5f5f0 */
+    --foreground: 144 22% 11%; /* #1a2e1f */
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
+    --card-foreground: 144 22% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
+    --popover-foreground: 144 22% 11%;
 
-    --primary: 150 38% 17%; /* forest #1a3d2b */
+    --primary: 150 30% 14%; /* #1a3a2a */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 42 64% 54%; /* bamboo #c9a84c */
-    --secondary-foreground: 150 38% 17%;
+    --secondary: 42 64% 54%; /* gold #c9a84c */
+    --secondary-foreground: 150 30% 14%;
 
-    --muted: 160 18% 93%; /* sky #e8f4f0 */
-    --muted-foreground: 0 0% 29%; /* text-mid #4a4a4a */
+    --muted: 136 34% 90%; /* green-pale #d8f3dc */
+    --muted-foreground: 140 16% 49%; /* #6b8f71 */
 
-    --accent: 42 80% 68%; /* bamboo-light #f0c96a */
-    --accent-foreground: 150 38% 17%;
+    --accent: 48 87% 72%; /* gold-light #f4d87a */
+    --accent-foreground: 150 30% 14%;
 
-    --destructive: 4 64% 47%; /* red-urgent #c0392b */
+    --destructive: 4 64% 47%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 40 20% 90%;
-    --input: 40 20% 90%;
-    --ring: 150 38% 17%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 150 30% 14%;
 
     --radius: 0.75rem;
 
-    /* Custom CHT tokens */
-    --forest: 150 38% 17%;
-    --forest-light: 153 38% 30%;
-    --forest-mid: 153 38% 39%;
-    --bamboo: 42 64% 54%;
-    --bamboo-light: 42 80% 68%;
-    --earth: 25 72% 31%;
-    --cream: 40 45% 96%;
-    --cream-dark: 36 30% 92%;
-    --sky: 160 18% 93%;
-    --text-dark: 0 0% 10%;
-    --text-mid: 0 0% 29%;
-    --text-light: 0 0% 53%;
-    --footer-bg: 150 38% 10%;
+    /* Custom tokens */
+    --green-dark: 150 30% 14%;
+    --green-mid: 153 40% 30%;
+    --green-light: 153 43% 52%;
+    --green-pale: 136 34% 90%;
+    --gold: 42 64% 54%;
+    --gold-light: 48 87% 72%;
+    --cream: 80 5% 96%;
+    --text-dark: 144 22% 11%;
+    --text-light: 140 16% 49%;
+    --sidebar-width: 268px;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 150 30% 14%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 150 30% 14%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 153 43% 52%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 100%;
+    --sidebar-ring: 153 43% 52%;
   }
 }
 
@@ -73,46 +69,11 @@
   }
 }
 
-/* CHT Tribal Pattern Stripe */
-.cht-pattern {
-  height: 5px;
-  background: repeating-linear-gradient(
-    90deg,
-    hsl(var(--bamboo)) 0px, hsl(var(--bamboo)) 18px,
-    hsl(var(--forest-light)) 18px, hsl(var(--forest-light)) 30px,
-    hsl(var(--earth)) 30px, hsl(var(--earth)) 42px,
-    hsl(var(--forest-light)) 42px, hsl(var(--forest-light)) 54px
-  );
+.font-serif-bn {
+  font-family: 'Noto Serif Bengali', serif;
 }
 
-.cht-pattern-mobile {
-  height: 8px;
-  background: repeating-linear-gradient(
-    90deg,
-    hsl(var(--bamboo)) 0px, hsl(var(--bamboo)) 12px,
-    hsl(var(--forest-light)) 12px, hsl(var(--forest-light)) 20px,
-    hsl(var(--earth)) 20px, hsl(var(--earth)) 28px,
-    hsl(var(--forest-light)) 28px, hsl(var(--forest-light)) 36px
-  );
-  opacity: 0.85;
-}
-
-.cht-divider {
-  height: 5px;
-  background: repeating-linear-gradient(
-    90deg,
-    hsl(var(--bamboo)) 0px, hsl(var(--bamboo)) 18px,
-    hsl(var(--cream-dark)) 18px, hsl(var(--cream-dark)) 30px
-  );
-  opacity: 0.5;
-}
-
-/* Title font */
-.font-bangla {
-  font-family: 'Tiro Bangla', serif;
-}
-
-/* Hide scrollbar for horizontal scroll */
+/* Hide scrollbar */
 .scrollbar-hide {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -121,48 +82,18 @@
   display: none;
 }
 
-/* Emergency pulse animation */
-@keyframes pulse-shadow {
-  0%, 100% { box-shadow: 0 4px 15px rgba(192,57,43,0.3); }
-  50% { box-shadow: 0 4px 25px rgba(192,57,43,0.55); }
-}
-
-.animate-pulse-shadow {
-  animation: pulse-shadow 2.5s infinite;
-}
-
-/* Slide background for emergency bar */
-@keyframes slide-bg {
-  0% { background-position: 0% 0%; }
-  100% { background-position: 200% 0%; }
-}
-
-.animate-slide-bg {
-  animation: slide-bg 4s linear infinite;
-}
-
 /* Fade up animation */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(13px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-up {
-  animation: fadeUp 0.6s ease both;
+  animation: fadeUp 0.33s ease forwards;
+  opacity: 0;
 }
 
-.animate-fade-up-delay-1 {
-  animation: fadeUp 0.6s ease 0.15s both;
-}
-
-.animate-fade-up-delay-2 {
-  animation: fadeUp 0.5s ease 0.2s both;
-}
-
-.animate-fade-up-delay-3 {
-  animation: fadeUp 0.5s ease 0.3s both;
-}
-
-.animate-fade-up-delay-4 {
-  animation: fadeUp 0.5s ease 0.4s both;
-}
+.animate-fade-up-delay-1 { animation: fadeUp 0.33s ease 0.04s forwards; opacity: 0; }
+.animate-fade-up-delay-2 { animation: fadeUp 0.33s ease 0.08s forwards; opacity: 0; }
+.animate-fade-up-delay-3 { animation: fadeUp 0.33s ease 0.12s forwards; opacity: 0; }
+.animate-fade-up-delay-4 { animation: fadeUp 0.33s ease 0.16s forwards; opacity: 0; }
