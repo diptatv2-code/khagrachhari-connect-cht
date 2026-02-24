@@ -20,7 +20,7 @@ interface Props {
 
 const BusinessCard = ({ biz, emoji = "📍" }: Props) => {
   const mapsUrl = biz.google_maps_place_id
-    ? `https://www.google.com/maps/place/?q=place_id:${biz.google_maps_place_id}`
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(biz.name_bn)}&query_place_id=${biz.google_maps_place_id}`
     : null;
 
   return (
