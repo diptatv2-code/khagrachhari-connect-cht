@@ -7,6 +7,7 @@ import HomePage from "@/components/HomePage";
 import ServicesPage from "@/components/ServicesPage";
 import HotelsPage from "@/components/HotelsPage";
 import TouristPage from "@/components/TouristPage";
+import ChatBot from "@/components/ChatBot";
 
 const topbarTitles: Record<string, string> = {
   home: "খাগড়াছড়ি — সকল সেবা এক জায়গায়",
@@ -59,6 +60,8 @@ const Index = () => {
           ) : null}
         </div>
       </div>
+
+      <ChatBot onNavigate={handleNavigate} />
     </div>
   );
 };
