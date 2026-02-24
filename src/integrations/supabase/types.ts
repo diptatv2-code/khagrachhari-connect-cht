@@ -20,12 +20,16 @@ export type Database = {
           category: string
           created_at: string
           description: string | null
+          google_maps_place_id: string | null
+          hours: string | null
           id: string
           is_open: boolean | null
           name_bn: string
           name_en: string | null
           phone: string
+          rating: string | null
           section: string
+          tag: string | null
           whatsapp: string | null
         }
         Insert: {
@@ -33,12 +37,16 @@ export type Database = {
           category: string
           created_at?: string
           description?: string | null
+          google_maps_place_id?: string | null
+          hours?: string | null
           id?: string
           is_open?: boolean | null
           name_bn: string
           name_en?: string | null
           phone: string
+          rating?: string | null
           section: string
+          tag?: string | null
           whatsapp?: string | null
         }
         Update: {
@@ -46,12 +54,16 @@ export type Database = {
           category?: string
           created_at?: string
           description?: string | null
+          google_maps_place_id?: string | null
+          hours?: string | null
           id?: string
           is_open?: boolean | null
           name_bn?: string
           name_en?: string | null
           phone?: string
+          rating?: string | null
           section?: string
+          tag?: string | null
           whatsapp?: string | null
         }
         Relationships: []
