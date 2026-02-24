@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        bangla: ['"Tiro Bangla"', 'serif'],
+        bangla: ['"Noto Serif Bengali"', 'serif'],
         body: ['"Hind Siliguri"', 'sans-serif'],
       },
       colors: {
@@ -51,21 +51,6 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        forest: {
-          DEFAULT: "hsl(var(--forest))",
-          light: "hsl(var(--forest-light))",
-          mid: "hsl(var(--forest-mid))",
-        },
-        bamboo: {
-          DEFAULT: "hsl(var(--bamboo))",
-          light: "hsl(var(--bamboo-light))",
-        },
-        earth: "hsl(var(--earth))",
-        cream: {
-          DEFAULT: "hsl(var(--cream))",
-          dark: "hsl(var(--cream-dark))",
-        },
-        sky: "hsl(var(--sky))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
