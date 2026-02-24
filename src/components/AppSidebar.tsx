@@ -34,7 +34,7 @@ const AppSidebar = ({ activePage, onNavigate }: Props) => {
 
       {/* Nav */}
       <div className="py-[10px] flex-1">
-        <div className="text-[9.5px] font-bold text-primary-foreground/32 uppercase tracking-widest px-[18px] py-[10px] pb-[3px]">
+        <div className="text-[9.5px] font-bold text-primary-foreground/50 uppercase tracking-widest px-[18px] py-[10px] pb-[3px]">
           প্রধান মেনু
         </div>
         {mainNav.map((item) => (
@@ -63,7 +63,7 @@ const AppSidebar = ({ activePage, onNavigate }: Props) => {
 
         {sidebarGroups.map((group) => (
           <div key={group.label}>
-            <div className="text-[9.5px] font-bold text-primary-foreground/32 uppercase tracking-widest px-[18px] pt-[10px] pb-[3px] mt-[6px]">
+            <div className="text-[9.5px] font-bold text-primary-foreground/50 uppercase tracking-widest px-[18px] pt-[10px] pb-[3px] mt-[6px]">
               {group.label}
             </div>
             {group.items.map((item) => (
