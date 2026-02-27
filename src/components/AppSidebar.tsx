@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { mainNav, sidebarGroups, emergencyNumbers } from "@/data/sidebarNav";
 
 interface Props {
@@ -10,7 +9,7 @@ const AppSidebar = ({ activePage, onNavigate }: Props) => {
   return (
     <nav className="hidden lg:flex w-[268px] bg-primary fixed top-0 left-0 bottom-0 flex-col z-[200] overflow-y-auto">
       {/* Logo */}
-      <Link to="/" className="block px-[18px] pt-[22px] pb-[14px] border-b hover:opacity-90 transition-opacity" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
+      <button onClick={() => onNavigate("home", "page")} className="block w-full text-left px-[18px] pt-[22px] pb-[14px] border-b hover:opacity-90 transition-opacity" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
         <div className="flex items-center gap-[10px]">
           <div className="w-10 h-10 bg-secondary rounded-[10px] flex items-center justify-center text-xl flex-shrink-0">⛰️</div>
           <div>
@@ -19,7 +18,7 @@ const AppSidebar = ({ activePage, onNavigate }: Props) => {
           </div>
         </div>
         <div className="mt-[7px] text-[10px] tracking-wider" style={{ color: 'rgba(255,255,255,0.35)' }}>amarkgc.com</div>
-      </Link>
+      </button>
 
       {/* Search */}
       <div className="px-4 py-3 border-b" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>

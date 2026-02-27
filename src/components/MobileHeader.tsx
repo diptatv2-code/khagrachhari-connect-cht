@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+
 import { mainNav, sidebarGroups, emergencyNumbers } from "@/data/sidebarNav";
 
 interface Props {
@@ -18,13 +18,13 @@ const MobileHeader = ({ activePage = "home", onNavigate }: Props) => {
   return (
     <>
       <header className="lg:hidden flex bg-primary px-[14px] h-[54px] items-center justify-between sticky top-0 z-[100] shadow-lg">
-        <Link to="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
+        <button onClick={() => { onNavigate?.("home", "page"); }} className="flex items-center gap-2 hover:opacity-90 transition-opacity">
           <div className="w-[33px] h-[33px] bg-secondary rounded-lg flex items-center justify-center text-[17px]">⛰️</div>
-          <div>
+          <div className="text-left">
             <div className="font-serif-bn text-[14px] font-bold text-primary-foreground">খাগড়াছড়ি</div>
             <div className="text-[9px] text-accent">আমাদের শহর, আমাদের গর্ব</div>
           </div>
-        </Link>
+        </button>
         <div className="flex gap-[5px]">
           <button className="w-8 h-8 bg-primary-foreground/10 rounded-[7px] flex items-center justify-center text-primary-foreground text-[14px]">🔔</button>
           <button
