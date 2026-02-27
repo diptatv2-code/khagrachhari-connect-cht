@@ -24,6 +24,7 @@ const Index = () => {
   const handleNavigate = (id: string, type: "page" | "service") => {
     // Route to separate pages
     if (id === "marketplace") { navigate("/marketplace"); return; }
+    if (id === "doctors") { navigate("/doctors"); return; }
     
     if (type === "page") {
       setActivePage(id);

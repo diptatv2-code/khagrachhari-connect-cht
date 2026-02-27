@@ -23,6 +23,8 @@ const serviceLabels: Record<string, { label: string; emoji: string }> = {
   transport: { label: "গাড়ি ভাড়া", emoji: "🚗" },
   bus: { label: "বাস কাউন্টার", emoji: "🚌" },
   tourist: { label: "পর্যটন স্থান", emoji: "🗺️" },
+  doctors: { label: "ডাক্তার তালিকা", emoji: "👨‍⚕️" },
+  marketplace: { label: "ক্রয় ও বিক্রয়", emoji: "🛒" },
 };
 
 interface ChatBotProps {
@@ -43,7 +45,7 @@ const ChatBot = ({ onNavigate }: ChatBotProps) => {
   }, [messages, open]);
 
   const handleNavigate = (id: string) => {
-    const pageIds = ["hotels", "tourist", "home"];
+    const pageIds = ["hotels", "tourist", "home", "doctors", "marketplace"];
     if (onNavigate) {
       onNavigate(id, pageIds.includes(id) ? "page" : "service");
       setOpen(false);

@@ -17,7 +17,7 @@ const Navbar = () => {
     <nav className="bg-primary sticky top-0 z-50 shadow-lg">
       {/* Desktop */}
       <div className="hidden lg:flex max-w-[1280px] mx-auto items-center justify-between px-10 h-[68px]">
-        <div className="flex items-center gap-3.5">
+        <Link to="/" className="flex items-center gap-3.5 hover:opacity-90 transition-opacity">
           <div className="w-12 h-12 bg-gradient-to-br from-secondary to-accent rounded-[14px] flex items-center justify-center text-2xl shadow-lg">
             🏔️
           </div>
@@ -25,7 +25,7 @@ const Navbar = () => {
             <h1 className="font-bangla text-[22px] text-primary-foreground leading-tight">খাগড়াছড়ি</h1>
             <span className="text-xs text-bamboo-light tracking-wide">আমাদের শহর, আমাদের গর্ব</span>
           </div>
-        </div>
+        </Link>
 
         <div className="flex items-center gap-1.5">
           {navLinks.map((link) =>
@@ -59,7 +59,7 @@ const Navbar = () => {
       {/* Mobile */}
       <div className="lg:hidden">
         <div className="flex items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-2.5">
+          <Link to="/" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
             <div className="w-[42px] h-[42px] bg-gradient-to-br from-secondary to-accent rounded-xl flex items-center justify-center text-[22px] shadow-lg">
               🏔️
             </div>
@@ -67,7 +67,7 @@ const Navbar = () => {
               <h1 className="font-bangla text-lg text-primary-foreground leading-tight">খাগড়াছড়ি</h1>
               <span className="text-[11px] text-bamboo-light tracking-wide">আমাদের শহর, আমাদের গর্ব</span>
             </div>
-          </div>
+          </Link>
           <div className="flex gap-3 items-center">
             <button className="w-9 h-9 bg-primary-foreground/10 rounded-[10px] flex items-center justify-center text-primary-foreground">🔔</button>
             <button
