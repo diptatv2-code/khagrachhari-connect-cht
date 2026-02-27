@@ -15,6 +15,7 @@ export const mainNav: SidebarNavItem[] = [
   { id: "home", label: "হোম", emoji: "🏠", type: "page" },
   { id: "hotels", label: "হোটেল ও আবাসন", emoji: "🏨", count: "১৫", type: "page" },
   { id: "tourist", label: "পর্যটন স্থান", emoji: "🗺️", count: "৬", type: "page" },
+  { id: "doctors", label: "ডাক্তার তালিকা", emoji: "👨‍⚕️", count: "২৫", type: "page" },
   { id: "marketplace", label: "ক্রয় ও বিক্রয়", emoji: "🛒", type: "page" },
 ];
 
@@ -76,6 +77,7 @@ export const sidebarGroups: SidebarGroup[] = [
 export const categoryGrid = [
   { id: "health", label: "হাসপাতাল ও ক্লিনিক", sub: "১০টি স্থান", emoji: "🏥" },
   { id: "medicine", label: "ওষুধের দোকান", sub: "৫টি ফার্মেসি", emoji: "💊" },
+  { id: "doctors", label: "ডাক্তার তালিকা", sub: "বিশেষজ্ঞ ডাক্তার", emoji: "👨‍⚕️", type: "page" as const },
   { id: "restaurant", label: "রেস্তোরাঁ", sub: "৭টি রেস্তোরাঁ", emoji: "🍽️" },
   { id: "grocery", label: "গ্রোসারি", sub: "৫টি দোকান", emoji: "🛒" },
   { id: "transport", label: "গাড়ি ভাড়া ও CNG", sub: "৮টি সার্ভিস", emoji: "🚗" },
@@ -90,6 +92,7 @@ export const categoryGrid = [
   { id: "ladies", label: "লেডিজ পার্লার", sub: "৬টি পার্লার", emoji: "💅" },
   { id: "repair", label: "মোবাইল রিপেয়ার", sub: "৫টি শপ", emoji: "🔧" },
   { id: "community", label: "কমিউনিটি সেন্টার", sub: "৩টি হলরুম", emoji: "🏛️" },
+  { id: "marketplace", label: "ক্রয় ও বিক্রয়", sub: "কিনুন ও বেচুন", emoji: "🛒", type: "page" as const },
   { id: "hotels", label: "হোটেল ও আবাসন", sub: "১৫টি হোটেল", emoji: "🏨", type: "page" as const },
   { id: "tourist", label: "পর্যটন স্থান", sub: "আলুটিলা, সাজেক", emoji: "🗺️", type: "page" as const },
 ];
