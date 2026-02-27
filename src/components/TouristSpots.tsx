@@ -22,7 +22,7 @@ const TouristSpots = () => {
         <div className="grid grid-cols-4 gap-5">
           {touristSpotsDetailed.map((spot) => (
             <Link to={`/spot/${spot.slug}`} key={spot.id} className="bg-card rounded-[20px] overflow-hidden shadow-md hover:-translate-y-1.5 hover:shadow-lg transition-all cursor-pointer block">
-              <div className="h-40 relative overflow-hidden">
+              <div className="h-[200px] relative overflow-hidden">
                 <img
                   src={spot.photos[0]}
                   alt={spot.name}
@@ -30,8 +30,9 @@ const TouristSpots = () => {
                   loading="lazy"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
-                    e.currentTarget.parentElement!.classList.add('flex', 'items-center', 'justify-center', 'text-[52px]', `bg-gradient-to-br`, spot.gradient.split(' ').join(' '));
-                    e.currentTarget.parentElement!.innerHTML = `<span class="text-[52px]">${spot.emoji}</span>`;
+                    e.currentTarget.parentElement!.style.background = 'linear-gradient(135deg, #1a3d2b, #2d6a4f)';
+                    e.currentTarget.parentElement!.classList.add('flex', 'items-center', 'justify-center');
+                    e.currentTarget.parentElement!.innerHTML = `<span class="text-[64px]">🏔️</span>`;
                   }}
                 />
                 {spot.badge && (
@@ -70,8 +71,19 @@ const TouristSpots = () => {
         <div className="flex gap-3 px-4 overflow-x-auto scrollbar-hide pb-2">
           {touristSpotsDetailed.slice(0, 5).map((spot) => (
             <Link to={`/spot/${spot.slug}`} key={spot.id} className="flex-shrink-0 w-40 rounded-2xl overflow-hidden shadow-md bg-card cursor-pointer active:scale-[0.97] transition-transform block">
-              <div className="w-full h-[100px] overflow-hidden">
-                <img src={spot.photos[0]} alt={spot.name} className="w-full h-full object-cover" loading="lazy" />
+              <div className="w-full h-[120px] overflow-hidden">
+                <img
+                  src={spot.photos[0]}
+                  alt={spot.name}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.parentElement!.style.background = 'linear-gradient(135deg, #1a3d2b, #2d6a4f)';
+                    e.currentTarget.parentElement!.classList.add('flex', 'items-center', 'justify-center');
+                    e.currentTarget.parentElement!.innerHTML = `<span class="text-[48px]">🏔️</span>`;
+                  }}
+                />
               </div>
               <div className="p-2.5">
                 <div className="text-[13px] font-bold text-primary mb-0.5">{spot.name}</div>

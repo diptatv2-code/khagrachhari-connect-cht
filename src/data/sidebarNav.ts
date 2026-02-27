@@ -15,6 +15,7 @@ export const mainNav: SidebarNavItem[] = [
   { id: "home", label: "হোম", emoji: "🏠", type: "page" },
   { id: "hotels", label: "হোটেল ও আবাসন", emoji: "🏨", count: "১৫", type: "page" },
   { id: "tourist", label: "পর্যটন স্থান", emoji: "🗺️", count: "৬", type: "page" },
+  { id: "marketplace", label: "ক্রয় ও বিক্রয়", emoji: "🛒", type: "page" },
 ];
 
 export const sidebarGroups: SidebarGroup[] = [

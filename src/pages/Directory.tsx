@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { allLocalFilterLabels, allTouristFilterLabels, localCategories, touristCategories } from "@/data/directoryCategories";
 import AddBusinessModal from "@/components/AddBusinessModal";
+import { getCategoryStyle } from "@/lib/categoryGradients";
 
 interface Business {
   id: string;
@@ -52,29 +53,32 @@ const FilterPills = ({
 );
 
 const BusinessCard = ({ biz }: { biz: Business }) => {
+  const [imgError, setImgError] = useState(false);
+  const catStyle = getCategoryStyle(biz.category);
   const mapsUrl = biz.google_maps_place_id
     ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(biz.name_bn)}&query_place_id=${biz.google_maps_place_id}`
     : null;
 
+  const hasImage = (biz as any).image_url && !imgError;
+
   return (
     <div className="bg-card rounded-2xl overflow-hidden shadow-sm border border-border hover:shadow-md transition-all">
-      {/* Photo placeholder with Google Maps link */}
-      {mapsUrl && (
-        <div className="h-24 bg-muted flex items-center justify-center relative">
-          <span className="text-4xl opacity-30">
-            {localCategories.find(c => biz.category.includes(c.label))?.emoji ||
-             touristCategories.find(c => biz.category.includes(c.label))?.emoji || "📍"}
-          </span>
-          <a
-            href={mapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="absolute bottom-2 right-2 text-[10px] font-semibold bg-black/60 text-white px-2 py-1 rounded-md backdrop-blur-sm hover:bg-black/80 transition-colors"
-          >
+      {/* Photo area with gradient fallback */}
+      <div
+        className="h-[200px] flex items-center justify-center relative overflow-hidden"
+        style={!hasImage ? { background: catStyle.gradient } : undefined}
+      >
+        {hasImage ? (
+          <img src={(biz as any).image_url} alt={biz.name_bn} className="w-full h-full object-cover" loading="lazy" onError={() => setImgError(true)} />
+        ) : (
+          <span className="text-[64px] opacity-90 drop-shadow-lg">{catStyle.emoji}</span>
+        )}
+        {mapsUrl && (
+          <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="absolute bottom-2 right-2 text-[10px] font-semibold bg-black/60 text-white px-2 py-1 rounded-md backdrop-blur-sm hover:bg-black/80 transition-colors">
             📷 ছবি দেখুন
           </a>
-        </div>
-      )}
+        )}
+      </div>
 
       <div className="p-4">
         <div className="flex items-start justify-between mb-2">

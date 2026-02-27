@@ -48,7 +48,7 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     coordinates: { lat: 23.0883, lng: 91.9567 },
     highlights: ["১০০ মিটার দীর্ঘ প্রাকৃতিক গুহা", "মশাল দিয়ে প্রবেশ", "ভেতরে ঠান্ডা পানির ধারা", "গুহার শেষে ঝরনা", "সমুদ্রপৃষ্ঠ থেকে ৩০০০ ফুট উচ্চতায়"],
     photos: [
-      "/images/spots/alutila-1.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Alu_Tila_Guha_khagrachari.jpg/800px-Alu_Tila_Guha_khagrachari.jpg",
       "/images/spots/alutila-2.jpg",
       "/images/spots/alutila-3.jpg",
     ],
@@ -75,9 +75,9 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     emoji: "💧",
     gradient: "from-blue-900 to-blue-400",
     coordinates: { lat: 23.07, lng: 91.96 },
-    highlights: ["প্রায় ৫০ ফুট উঁচু ঝরনা", "বর্ষায় পূর্ণধারায় প্রবাহিত", "গোসল করার সুবিধা", "চারপাশে ঘন বনভূমি"],
+    highlights: ["প্রায় ৫০ ফুট উচ্চু ঝরনা", "বর্ষায় পূর্ণধারায় প্রবাহিত", "গোসল করার সুবিধা", "চারপাশে ঘন বনভূমি"],
     photos: [
-      "/images/spots/richhang-1.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Richhang_falls.jpg/800px-Richhang_falls.jpg",
       "/images/spots/richhang-2.jpg",
       "/images/spots/richhang-3.jpg",
     ],
@@ -107,7 +107,7 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     coordinates: { lat: 23.3832, lng: 92.2937 },
     highlights: ["১৮০০ ফুট উচ্চতায় মেঘের রাজ্য", "কংলাক ও রুইলুই পাড়া", "অবিস্মরণীয় সূর্যোদয়-সূর্যাস্ত", "আদিবাসী গ্রাম পরিদর্শন", "বাংলাদেশের সবচেয়ে বড় ইউনিয়ন"],
     photos: [
-      "/images/spots/sajek-1.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Sajek_valley.jpg/1280px-Sajek_valley.jpg",
       "/images/spots/sajek-2.jpg",
       "/images/spots/sajek-3.jpg",
     ],
@@ -134,7 +134,7 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     gradient: "from-orange-800 to-orange-500",
     highlights: ["৫০ ফুট উচ্চতার বুদ্ধমূর্তি", "৬৫ একর বনভূমি", "ধ্যান কুটির", "শান্ত আধ্যাত্মিক পরিবেশ"],
     photos: [
-      "/images/spots/shantipur-1.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Shantipur_Aranya_Kutir.jpg/800px-Shantipur_Aranya_Kutir.jpg",
       "/images/spots/shantipur-2.jpg",
       "/images/spots/shantipur-3.jpg",
     ],
@@ -160,7 +160,7 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     gradient: "from-green-800 to-green-400",
     highlights: ["শহরের সবচেয়ে কাছের দর্শনীয় স্থান", "সবুজ মাঠ ও পাহাড়", "পিকনিকের জন্য আদর্শ", "বিনামূল্যে প্রবেশ"],
     photos: [
-      "/images/spots/nzpara-1.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/New_Zealand_Para_Khagrachari.jpg/800px-New_Zealand_Para_Khagrachari.jpg",
       "/images/spots/nzpara-2.jpg",
       "/images/spots/nzpara-3.jpg",
     ],
@@ -187,7 +187,7 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     gradient: "from-purple-900 to-purple-500",
     highlights: ["১২০৮ ফুট উচ্চতা", "৩০০ সিঁড়ি বেয়ে চূড়ায়", "৩৬০° প্যানোরামিক দৃশ্য", "মেঘের খেলা দেখা যায়"],
     photos: [
-      "/images/spots/mayung-1.jpg",
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/e6/53/e9/mayung-kopal.jpg?w=800",
       "/images/spots/mayung-2.jpg",
       "/images/spots/mayung-3.jpg",
     ],
@@ -213,7 +213,7 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     gradient: "from-teal-800 to-teal-400",
     highlights: ["রাস্তা থেকে ১৫ মিনিটের হাঁটা", "ট্রেকিং অভিজ্ঞতা", "ঘন সবুজ বনভূমি", "বর্ষায় অসাধারণ"],
     photos: [
-      "/images/spots/hajachara-1.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Hajachara_Waterfall.jpg/800px-Hajachara_Waterfall.jpg",
       "/images/spots/hajachara-2.jpg",
       "/images/spots/hajachara-3.jpg",
     ],
@@ -239,7 +239,7 @@ export const touristSpotsDetailed: TouristSpotDetail[] = [
     gradient: "from-blue-800 to-blue-400",
     highlights: ["স্বচ্ছ পানির প্রাকৃতিক হ্রদ", "নৌকায় ঘুরে বেড়ানো", "পাহাড়ি দৃশ্য", "শান্ত পরিবেশ"],
     photos: [
-      "/images/spots/mayabini-1.jpg",
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/bd/0a/d7/mayabini-lake.jpg?w=800",
       "/images/spots/mayabini-2.jpg",
       "/images/spots/mayabini-3.jpg",
     ],
