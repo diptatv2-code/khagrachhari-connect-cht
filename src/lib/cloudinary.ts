@@ -3,6 +3,27 @@ const UPLOAD_PRESET = "amarkgc_uploads";
 
 export const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
 
+/** Optimize a Cloudinary-hosted image URL by injecting transformation params */
+export const optimizeCloudinaryUrl = (url: string, width = 800): string => {
+  if (!url || !url.includes("res.cloudinary.com")) return url;
+  // Already has transforms? skip
+  if (url.includes("q_auto")) return url;
+  return url.replace("/image/upload/", `/image/upload/q_auto,f_auto,w_${width},c_limit/`);
+};
+
+/** Card thumbnail optimization */
+export const optimizeCardUrl = (url: string): string => {
+  if (!url || !url.includes("res.cloudinary.com")) return url;
+  if (url.includes("q_auto")) return url;
+  return url.replace("/image/upload/", "/image/upload/q_auto,f_auto,w_400,c_fill,h_250/");
+};
+
+/** Proxy an external image through Cloudinary fetch for optimization */
+export const cloudinaryFetchUrl = (externalUrl: string, width = 600): string => {
+  return `https://res.cloudinary.com/${CLOUD_NAME}/image/fetch/q_auto,f_auto,w_${width},c_limit/${encodeURIComponent(externalUrl)}`;
+};
+
+/** Get optimized URL (legacy helper) */
 export const getOptimizedUrl = (publicId: string, width = 1200) =>
   `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/q_auto,f_auto,w_${width}/${publicId}`;
 
@@ -18,6 +39,7 @@ export const uploadToCloudinary = async (
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", UPLOAD_PRESET);
+    formData.append("folder", "amarkgc");
 
     const xhr = new XMLHttpRequest();
     xhr.open("POST", CLOUDINARY_UPLOAD_URL);

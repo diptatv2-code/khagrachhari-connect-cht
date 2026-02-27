@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { uploadToCloudinary } from "@/lib/cloudinary";
+import { uploadToCloudinary, optimizeCardUrl } from "@/lib/cloudinary";
+import ImageLightbox from "@/components/ImageLightbox";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -199,7 +200,18 @@ const Marketplace = () => {
 
         {/* Listings */}
         {loading ? (
-          <div className="text-center py-12 text-muted-foreground">লোড হচ্ছে...</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="bg-card rounded-2xl overflow-hidden border border-border">
+                <div className="h-[180px] bg-muted animate-pulse" />
+                <div className="p-3.5 space-y-2">
+                  <div className="h-4 bg-muted animate-pulse rounded w-3/4" />
+                  <div className="h-3 bg-muted animate-pulse rounded w-1/2" />
+                  <div className="h-6 bg-muted animate-pulse rounded w-1/3 mt-2" />
+                </div>
+              </div>
+            ))}
+          </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-16 bg-card rounded-2xl border border-border">
             <div className="text-5xl mb-3">📭</div>
@@ -225,8 +237,10 @@ const Marketplace = () => {
 
 const ListingCard = ({ listing, onReport }: { listing: Listing; onReport: (id: string, reason: string) => void }) => {
   const [imgIdx, setImgIdx] = useState(0);
+  const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
   const [showReport, setShowReport] = useState(false);
+  const [lightbox, setLightbox] = useState<number | null>(null);
   const cond = conditionLabel[listing.condition] || conditionLabel.used;
   const isFree = listing.price_type === "free";
   const whatsappNum = (listing.whatsapp || listing.phone).replace(/[^0-9]/g, "");
@@ -235,103 +249,125 @@ const ListingCard = ({ listing, onReport }: { listing: Listing; onReport: (id: s
   const hasMultiple = images.length > 1;
 
   return (
-    <div className="bg-card rounded-2xl overflow-hidden shadow-sm border border-border hover:shadow-md transition-all">
-      {/* Image Gallery */}
-      <div className="h-[180px] relative overflow-hidden" style={!images[imgIdx] || imgError ? { background: "linear-gradient(135deg, #1a3d2b, #c9a84c)" } : undefined}>
-        {images[imgIdx] && !imgError ? (
-          <img src={images[imgIdx]} alt={listing.title} className="w-full h-full object-cover" loading="lazy" onError={() => setImgError(true)} />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <span className="text-[52px] opacity-80">🛒</span>
+    <>
+      <div className="bg-card rounded-2xl overflow-hidden shadow-sm border border-border hover:shadow-md transition-all">
+        {/* Image Gallery */}
+        <div
+          className="h-[180px] relative overflow-hidden cursor-pointer"
+          style={!images[imgIdx] || imgError ? { background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)))" } : undefined}
+          onClick={() => images.length > 0 && !imgError && setLightbox(imgIdx)}
+        >
+          {/* Skeleton */}
+          {!imgLoaded && images[imgIdx] && !imgError && (
+            <div className="absolute inset-0 bg-muted animate-pulse" />
+          )}
+          {images[imgIdx] && !imgError ? (
+            <img
+              src={optimizeCardUrl(images[imgIdx])}
+              alt={listing.title}
+              className={`w-full h-full object-cover transition-opacity duration-300 ${imgLoaded ? "opacity-100" : "opacity-0"}`}
+              loading="lazy"
+              onLoad={() => setImgLoaded(true)}
+              onError={() => setImgError(true)}
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <span className="text-[52px] opacity-80">🛒</span>
+            </div>
+          )}
+          {/* Nav arrows */}
+          {hasMultiple && (
+            <>
+              <button onClick={(e) => { e.stopPropagation(); setImgLoaded(false); setImgIdx((p) => (p - 1 + images.length) % images.length); }} className="absolute left-1 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 text-white flex items-center justify-center text-sm backdrop-blur-sm hover:bg-black/70">‹</button>
+              <button onClick={(e) => { e.stopPropagation(); setImgLoaded(false); setImgIdx((p) => (p + 1) % images.length); }} className="absolute right-1 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 text-white flex items-center justify-center text-sm backdrop-blur-sm hover:bg-black/70">›</button>
+            </>
+          )}
+          {/* Dots */}
+          {hasMultiple && (
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+              {images.map((_, i) => (
+                <span key={i} className={`w-1.5 h-1.5 rounded-full ${i === imgIdx ? "bg-white" : "bg-white/40"}`} />
+              ))}
+            </div>
+          )}
+          <div className="absolute top-2 left-2 flex gap-1">
+            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${cond.cls}`}>{cond.text}</span>
+            {isFree && <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-800">বিনামূল্যে 🎁</span>}
           </div>
-        )}
-        {/* Nav arrows */}
-        {hasMultiple && (
-          <>
-            <button onClick={(e) => { e.stopPropagation(); setImgIdx((p) => (p - 1 + images.length) % images.length); }} className="absolute left-1 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 text-white flex items-center justify-center text-sm backdrop-blur-sm hover:bg-black/70">‹</button>
-            <button onClick={(e) => { e.stopPropagation(); setImgIdx((p) => (p + 1) % images.length); }} className="absolute right-1 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 text-white flex items-center justify-center text-sm backdrop-blur-sm hover:bg-black/70">›</button>
-          </>
-        )}
-        {/* Dots */}
-        {hasMultiple && (
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
-            {images.map((_, i) => (
-              <span key={i} className={`w-1.5 h-1.5 rounded-full ${i === imgIdx ? "bg-white" : "bg-white/40"}`} />
-            ))}
+          {listing.category && (
+            <span className="absolute top-2 right-2 text-[10px] font-semibold bg-black/50 text-white px-2 py-0.5 rounded-full backdrop-blur-sm">
+              {listing.category}
+            </span>
+          )}
+          {hasMultiple && (
+            <span className="absolute bottom-2 right-2 text-[9px] font-bold bg-black/50 text-white px-1.5 py-0.5 rounded-full backdrop-blur-sm">
+              {imgIdx + 1}/{images.length}
+            </span>
+          )}
+        </div>
+
+        <div className="p-3.5">
+          <h3 className="text-sm font-bold text-primary mb-1 line-clamp-1">{listing.title}</h3>
+          {listing.description && <p className="text-xs text-muted-foreground line-clamp-2 mb-2">{listing.description}</p>}
+          
+          <div className="flex items-center justify-between mb-2">
+            <span className={`text-lg font-bold ${isFree ? "text-green-600" : "text-primary"}`}>
+              {isFree ? "বিনামূল্যে 🎁" : `৳${listing.price.toLocaleString("bn-BD")}`}
+            </span>
+            {listing.price_type === "negotiable" && <span className="text-[10px] text-muted-foreground">দরদাম চলবে</span>}
           </div>
-        )}
-        <div className="absolute top-2 left-2 flex gap-1">
-          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${cond.cls}`}>{cond.text}</span>
-          {isFree && <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-800">বিনামূল্যে 🎁</span>}
-        </div>
-        {listing.category && (
-          <span className="absolute top-2 right-2 text-[10px] font-semibold bg-black/50 text-white px-2 py-0.5 rounded-full backdrop-blur-sm">
-            {listing.category}
-          </span>
-        )}
-        {hasMultiple && (
-          <span className="absolute bottom-2 right-2 text-[9px] font-bold bg-black/50 text-white px-1.5 py-0.5 rounded-full backdrop-blur-sm">
-            {imgIdx + 1}/{images.length}
-          </span>
-        )}
-      </div>
 
-      <div className="p-3.5">
-        <h3 className="text-sm font-bold text-primary mb-1 line-clamp-1">{listing.title}</h3>
-        {listing.description && <p className="text-xs text-muted-foreground line-clamp-2 mb-2">{listing.description}</p>}
-        
-        <div className="flex items-center justify-between mb-2">
-          <span className={`text-lg font-bold ${isFree ? "text-green-600" : "text-primary"}`}>
-            {isFree ? "বিনামূল্যে 🎁" : `৳${listing.price.toLocaleString("bn-BD")}`}
-          </span>
-          {listing.price_type === "negotiable" && <span className="text-[10px] text-muted-foreground">দরদাম চলবে</span>}
-        </div>
+          <div className="flex items-center justify-between text-[10px] text-muted-foreground mb-3">
+            <span>📍 {listing.location}</span>
+            <span>{timeAgo(listing.created_at)}</span>
+          </div>
 
-        <div className="flex items-center justify-between text-[10px] text-muted-foreground mb-3">
-          <span>📍 {listing.location}</span>
-          <span>{timeAgo(listing.created_at)}</span>
-        </div>
+          {listing.seller_name && (
+            <div className="text-[11px] text-muted-foreground mb-2">👤 {listing.seller_name}</div>
+          )}
 
-        {listing.seller_name && (
-          <div className="text-[11px] text-muted-foreground mb-2">👤 {listing.seller_name}</div>
-        )}
-
-        <div className="flex gap-1.5 pt-2 border-t border-border">
-          <a
-            href={waUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 py-2 rounded-lg text-[11px] font-semibold flex items-center justify-center gap-1 text-white transition-opacity hover:opacity-90"
-            style={{ background: "#25d366" }}
-          >
-            💬 WhatsApp
-          </a>
-          <a
-            href={`tel:${listing.phone}`}
-            className="py-2 px-3 rounded-lg text-[11px] font-semibold bg-blue-50 text-blue-800 hover:opacity-80"
-          >
-            📞
-          </a>
-          <div className="relative">
-            <button
-              onClick={() => setShowReport(!showReport)}
-              className="py-2 px-3 rounded-lg text-[11px] bg-muted text-muted-foreground hover:opacity-80"
+          <div className="flex gap-1.5 pt-2 border-t border-border">
+            <a
+              href={waUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 py-2 rounded-lg text-[11px] font-semibold flex items-center justify-center gap-1 text-white transition-opacity hover:opacity-90"
+              style={{ background: "#25d366" }}
             >
-              🚩
-            </button>
-            {showReport && (
-              <div className="absolute bottom-full right-0 mb-1 bg-card border border-border rounded-xl shadow-lg p-2 w-40 z-10">
-                {["ভুয়া বিজ্ঞাপন", "স্প্যাম", "অশ্লীল", "অন্যান্য"].map((r) => (
-                  <button key={r} onClick={() => { onReport(listing.id, r); setShowReport(false); }} className="block w-full text-left text-xs px-2 py-1.5 hover:bg-muted rounded-lg text-primary">
-                    {r}
-                  </button>
-                ))}
-              </div>
-            )}
+              💬 WhatsApp
+            </a>
+            <a
+              href={`tel:${listing.phone}`}
+              className="py-2 px-3 rounded-lg text-[11px] font-semibold bg-blue-50 text-blue-800 hover:opacity-80"
+            >
+              📞
+            </a>
+            <div className="relative">
+              <button
+                onClick={() => setShowReport(!showReport)}
+                className="py-2 px-3 rounded-lg text-[11px] bg-muted text-muted-foreground hover:opacity-80"
+              >
+                🚩
+              </button>
+              {showReport && (
+                <div className="absolute bottom-full right-0 mb-1 bg-card border border-border rounded-xl shadow-lg p-2 w-40 z-10">
+                  {["ভুয়া বিজ্ঞাপন", "স্প্যাম", "অশ্লীল", "অন্যান্য"].map((r) => (
+                    <button key={r} onClick={() => { onReport(listing.id, r); setShowReport(false); }} className="block w-full text-left text-xs px-2 py-1.5 hover:bg-muted rounded-lg text-primary">
+                      {r}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Lightbox */}
+      {lightbox !== null && (
+        <ImageLightbox images={images} initialIndex={lightbox} onClose={() => setLightbox(null)} />
+      )}
+    </>
   );
 };
 
@@ -351,7 +387,7 @@ const PostForm = ({ onClose, onPosted }: { onClose: () => void; onPosted: () => 
   const [images, setImages] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadStates, setUploadStates] = useState<{ progress: number; status: "pending" | "uploading" | "done" | "error" }[]>([]);
   const [error, setError] = useState("");
   const [isFree, setIsFree] = useState(false);
   const [isNegotiable, setIsNegotiable] = useState(false);
@@ -367,6 +403,7 @@ const PostForm = ({ onClose, onPosted }: { onClose: () => void; onPosted: () => 
     const valid = files.filter((f) => f.size <= 5 * 1024 * 1024);
     if (valid.length < files.length) setError("৫MB এর বেশি ফাইল বাদ দেওয়া হয়েছে।");
     setImages((p) => [...p, ...valid]);
+    setUploadStates((p) => [...p, ...valid.map(() => ({ progress: 0, status: "pending" as const }))]);
     valid.forEach((f) => {
       const reader = new FileReader();
       reader.onload = (ev) => setPreviews((p) => [...p, ev.target?.result as string]);
@@ -377,6 +414,13 @@ const PostForm = ({ onClose, onPosted }: { onClose: () => void; onPosted: () => 
   const removeImage = (idx: number) => {
     setImages((p) => p.filter((_, i) => i !== idx));
     setPreviews((p) => p.filter((_, i) => i !== idx));
+    setUploadStates((p) => p.filter((_, i) => i !== idx));
+  };
+
+  const formatSize = (bytes: number) => {
+    if (bytes < 1024) return `${bytes}B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)}KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -389,7 +433,6 @@ const PostForm = ({ onClose, onPosted }: { onClose: () => void; onPosted: () => 
 
     setUploading(true);
     try {
-      // Check daily limit
       const today = new Date().toISOString().split("T")[0];
       const { count } = await supabase
         .from("marketplace_listings")
@@ -403,16 +446,21 @@ const PostForm = ({ onClose, onPosted }: { onClose: () => void; onPosted: () => 
         return;
       }
 
-      // Upload images
+      // Upload images with per-file progress
       const urls: string[] = [];
       for (let i = 0; i < images.length; i++) {
-        setUploadProgress(Math.round(((i) / images.length) * 100));
-        const { url } = await uploadToCloudinary(images[i], (p) => {
-          setUploadProgress(Math.round(((i + p / 100) / images.length) * 100));
-        });
-        urls.push(url);
+        setUploadStates((p) => p.map((s, j) => j === i ? { ...s, status: "uploading" } : s));
+        try {
+          const { url } = await uploadToCloudinary(images[i], (pct) => {
+            setUploadStates((p) => p.map((s, j) => j === i ? { ...s, progress: pct } : s));
+          });
+          urls.push(url);
+          setUploadStates((p) => p.map((s, j) => j === i ? { progress: 100, status: "done" } : s));
+        } catch {
+          setUploadStates((p) => p.map((s, j) => j === i ? { ...s, status: "error" } : s));
+          throw new Error("ছবি আপলোড ব্যর্থ। আবার চেষ্টা করুন।");
+        }
       }
-      setUploadProgress(100);
 
       const priceType = isFree ? "free" : isNegotiable ? "negotiable" : "fixed";
 
@@ -433,7 +481,7 @@ const PostForm = ({ onClose, onPosted }: { onClose: () => void; onPosted: () => 
 
       if (dbErr) throw dbErr;
       
-      alert("✅ বিজ্ঞাপন জমা হয়েছে! অ্যাডমিন অনুমোদন করলে প্রকাশিত হবে।");
+      alert("✅ আপনার বিজ্ঞাপন জমা হয়েছে! অ্যাডমিন অনুমোদনের পরে প্রকাশিত হবে।");
       onPosted();
       onClose();
     } catch (err: any) {
@@ -441,6 +489,8 @@ const PostForm = ({ onClose, onPosted }: { onClose: () => void; onPosted: () => 
     }
     setUploading(false);
   };
+
+  const allUploaded = uploadStates.length > 0 && uploadStates.every((s) => s.status === "done");
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={onClose}>
@@ -453,12 +503,28 @@ const PostForm = ({ onClose, onPosted }: { onClose: () => void; onPosted: () => 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Images */}
           <div>
-            <label className="text-xs font-semibold text-primary mb-1 block">ছবি আপলোড করুন (সর্বোচ্চ ৪টি) *</label>
+            <label className="text-xs font-semibold text-primary mb-1 block">ছবি আপলোড করুন *</label>
+            <p className="text-[10px] text-muted-foreground mb-2">সর্বোচ্চ ৪টি ছবি, প্রতিটি ৫MB পর্যন্ত</p>
             <div className="flex gap-2 flex-wrap mb-2">
               {previews.map((p, i) => (
                 <div key={i} className="relative w-20 h-20 rounded-xl overflow-hidden border border-border">
                   <img src={p} alt="" className="w-full h-full object-cover" />
+                  {/* Status overlay */}
+                  {uploadStates[i]?.status === "uploading" && (
+                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                      <div className="text-white text-[10px] font-bold">{uploadStates[i].progress}%</div>
+                    </div>
+                  )}
+                  {uploadStates[i]?.status === "done" && (
+                    <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center text-white text-[8px]">✓</div>
+                  )}
+                  {uploadStates[i]?.status === "error" && (
+                    <div className="absolute inset-0 bg-red-500/40 flex items-center justify-center">
+                      <span className="text-white text-xs">✕</span>
+                    </div>
+                  )}
                   <button type="button" onClick={() => removeImage(i)} className="absolute top-0.5 right-0.5 w-5 h-5 bg-red-500 text-white rounded-full text-xs flex items-center justify-center">✕</button>
+                  <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-[8px] text-center py-0.5">{formatSize(images[i]?.size || 0)}</div>
                 </div>
               ))}
               {images.length < 4 && (
@@ -541,16 +607,21 @@ const PostForm = ({ onClose, onPosted }: { onClose: () => void; onPosted: () => 
           {error && <p className="text-xs text-red-600 bg-red-50 px-3 py-2 rounded-lg">{error}</p>}
 
           {uploading && (
-            <div className="space-y-1">
-              <div className="text-xs text-primary font-semibold">আপলোড হচ্ছে... {uploadProgress}%</div>
-              <div className="w-full bg-muted rounded-full h-2">
-                <div className="bg-secondary h-2 rounded-full transition-all" style={{ width: `${uploadProgress}%` }} />
-              </div>
+            <div className="space-y-1.5">
+              {uploadStates.map((s, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <div className="text-[10px] text-primary w-16">ছবি {i + 1}</div>
+                  <div className="flex-1 bg-muted rounded-full h-1.5">
+                    <div className={`h-1.5 rounded-full transition-all ${s.status === "error" ? "bg-red-500" : "bg-secondary"}`} style={{ width: `${s.progress}%` }} />
+                  </div>
+                  <div className="text-[10px] text-muted-foreground w-8">{s.progress}%</div>
+                </div>
+              ))}
             </div>
           )}
 
           <button type="submit" disabled={uploading} className="w-full bg-primary text-primary-foreground py-3 rounded-xl text-sm font-semibold hover:opacity-90 disabled:opacity-50">
-            {uploading ? "জমা হচ্ছে..." : "বিজ্ঞাপন জমা দিন"}
+            {uploading ? "আপলোড হচ্ছে..." : "বিজ্ঞাপন জমা দিন"}
           </button>
           <p className="text-[10px] text-muted-foreground text-center">
             বিজ্ঞাপন জমা দেওয়ার পরে অ্যাডমিন অনুমোদন করলে প্রকাশিত হবে। সম্পূর্ণ বিনামূল্যে।
