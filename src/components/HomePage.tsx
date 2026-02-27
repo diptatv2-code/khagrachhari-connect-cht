@@ -6,8 +6,8 @@ interface Props {
 }
 
 const quickLinks = [
-  { label: "🛒 ক্রয় ও বিক্রয়", sub: "পুরনো জিনিস কিনুন ও বেচুন", route: "/marketplace", gradient: "bg-gradient-to-br from-[#c9a84c] to-[#f0c96a]" },
-  { label: "👨‍⚕️ ডাক্তার তালিকা", sub: "বিশেষজ্ঞ ডাক্তার খুঁজুন", route: "/doctors", gradient: "bg-gradient-to-br from-[#1a3d2b] to-[#2d6a4f]" },
+  { label: "🛒 ক্রয় ও বিক্রয়", sub: "পুরনো জিনিস কিনুন ও বেচুন", route: "/marketplace", gradient: "bg-gradient-to-br from-[#e8a912] to-[#f5d020]" },
+  { label: "👨‍⚕️ ডাক্তার তালিকা", sub: "বিশেষজ্ঞ ডাক্তার খুঁজুন", route: "/doctors", gradient: "bg-gradient-to-br from-[#0d7a3e] to-[#52b788]" },
 ];
 
 const HomePage = ({ onNavigate }: Props) => {
@@ -45,37 +45,37 @@ const HomePage = ({ onNavigate }: Props) => {
         </div>
       </div>
 
-      {/* Emergency */}
-      <SectionHeader title="জরুরি নম্বর" className="animate-fade-up-delay-1" />
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-[9px] lg:gap-[11px] mb-3 animate-fade-up-delay-1">
-        {emergencyNumbers.map((em) => (
-          <a
-            key={em.tel}
-            href={`tel:${em.tel}`}
-            className={`rounded-xl p-4 lg:p-[16px] flex items-center gap-[11px] text-primary-foreground transition-opacity hover:opacity-85 ${em.colorClass}`}
-          >
-            <span className="text-[26px]">{em.emoji}</span>
-            <div>
-              <div className="text-[11px] opacity-80">{em.label}</div>
-              <div className="text-lg font-bold font-mono leading-tight">{em.num}</div>
-            </div>
-          </a>
-        ))}
-      </div>
-
-      {/* Quick links */}
-      <div className="grid grid-cols-2 gap-[9px] lg:gap-[11px] mb-6 animate-fade-up-delay-1">
+      {/* Quick links — prominent, FIRST */}
+      <div className="grid grid-cols-2 gap-[9px] lg:gap-[11px] mb-4 animate-fade-up-delay-1">
         {quickLinks.map((ql) => (
           <button
             key={ql.route}
             onClick={() => navigate(ql.route)}
-            className={`rounded-xl p-4 lg:p-[16px] flex items-center gap-[11px] text-white text-left transition-opacity hover:opacity-85 ${ql.gradient}`}
+            className={`rounded-xl p-5 lg:p-6 flex items-center gap-3 text-white text-left transition-all hover:opacity-90 hover:-translate-y-[2px] shadow-md ${ql.gradient}`}
           >
             <div>
-              <div className="text-[13px] font-bold">{ql.label}</div>
-              <div className="text-[11px] opacity-80">{ql.sub}</div>
+              <div className="text-[16px] lg:text-[18px] font-bold leading-tight">{ql.label}</div>
+              <div className="text-[12px] lg:text-[13px] opacity-85 mt-1">{ql.sub}</div>
             </div>
           </button>
+        ))}
+      </div>
+
+      {/* Emergency */}
+      <SectionHeader title="জরুরি নম্বর" className="animate-fade-up-delay-1" />
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-[9px] lg:gap-[11px] mb-6 animate-fade-up-delay-1">
+        {emergencyNumbers.map((em) => (
+          <a
+            key={em.tel}
+            href={`tel:${em.tel}`}
+            className={`rounded-xl p-3 lg:p-[14px] flex items-center gap-[9px] text-primary-foreground transition-opacity hover:opacity-85 ${em.colorClass}`}
+          >
+            <span className="text-[20px]">{em.emoji}</span>
+            <div>
+              <div className="text-[10px] opacity-80">{em.label}</div>
+              <div className="text-[14px] font-bold font-mono leading-tight">{em.num}</div>
+            </div>
+          </a>
         ))}
       </div>
 

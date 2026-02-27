@@ -224,22 +224,40 @@ const Marketplace = () => {
 };
 
 const ListingCard = ({ listing, onReport }: { listing: Listing; onReport: (id: string, reason: string) => void }) => {
+  const [imgIdx, setImgIdx] = useState(0);
   const [imgError, setImgError] = useState(false);
   const [showReport, setShowReport] = useState(false);
   const cond = conditionLabel[listing.condition] || conditionLabel.used;
   const isFree = listing.price_type === "free";
   const whatsappNum = (listing.whatsapp || listing.phone).replace(/[^0-9]/g, "");
   const waUrl = `https://wa.me/${whatsappNum.startsWith("880") ? whatsappNum : "880" + whatsappNum}?text=${encodeURIComponent("আমি amarkgc.com থেকে আপনার \"" + listing.title + "\" বিজ্ঞাপনটি দেখেছি।")}`;
+  const images = listing.image_urls?.length ? listing.image_urls : [];
+  const hasMultiple = images.length > 1;
 
   return (
     <div className="bg-card rounded-2xl overflow-hidden shadow-sm border border-border hover:shadow-md transition-all">
-      {/* Image */}
-      <div className="h-[180px] relative overflow-hidden" style={!listing.image_urls?.[0] || imgError ? { background: "linear-gradient(135deg, #1a3d2b, #c9a84c)" } : undefined}>
-        {listing.image_urls?.[0] && !imgError ? (
-          <img src={listing.image_urls[0]} alt={listing.title} className="w-full h-full object-cover" loading="lazy" onError={() => setImgError(true)} />
+      {/* Image Gallery */}
+      <div className="h-[180px] relative overflow-hidden" style={!images[imgIdx] || imgError ? { background: "linear-gradient(135deg, #1a3d2b, #c9a84c)" } : undefined}>
+        {images[imgIdx] && !imgError ? (
+          <img src={images[imgIdx]} alt={listing.title} className="w-full h-full object-cover" loading="lazy" onError={() => setImgError(true)} />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
             <span className="text-[52px] opacity-80">🛒</span>
+          </div>
+        )}
+        {/* Nav arrows */}
+        {hasMultiple && (
+          <>
+            <button onClick={(e) => { e.stopPropagation(); setImgIdx((p) => (p - 1 + images.length) % images.length); }} className="absolute left-1 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 text-white flex items-center justify-center text-sm backdrop-blur-sm hover:bg-black/70">‹</button>
+            <button onClick={(e) => { e.stopPropagation(); setImgIdx((p) => (p + 1) % images.length); }} className="absolute right-1 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/50 text-white flex items-center justify-center text-sm backdrop-blur-sm hover:bg-black/70">›</button>
+          </>
+        )}
+        {/* Dots */}
+        {hasMultiple && (
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+            {images.map((_, i) => (
+              <span key={i} className={`w-1.5 h-1.5 rounded-full ${i === imgIdx ? "bg-white" : "bg-white/40"}`} />
+            ))}
           </div>
         )}
         <div className="absolute top-2 left-2 flex gap-1">
@@ -249,6 +267,11 @@ const ListingCard = ({ listing, onReport }: { listing: Listing; onReport: (id: s
         {listing.category && (
           <span className="absolute top-2 right-2 text-[10px] font-semibold bg-black/50 text-white px-2 py-0.5 rounded-full backdrop-blur-sm">
             {listing.category}
+          </span>
+        )}
+        {hasMultiple && (
+          <span className="absolute bottom-2 right-2 text-[9px] font-bold bg-black/50 text-white px-1.5 py-0.5 rounded-full backdrop-blur-sm">
+            {imgIdx + 1}/{images.length}
           </span>
         )}
       </div>
