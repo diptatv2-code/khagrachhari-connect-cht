@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AppSidebar from "@/components/AppSidebar";
 import MobileHeader from "@/components/MobileHeader";
 import BottomNav from "@/components/BottomNav";
@@ -18,8 +19,12 @@ const topbarTitles: Record<string, string> = {
 const Index = () => {
   const [activePage, setActivePage] = useState("home");
   const [activeService, setActiveService] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleNavigate = (id: string, type: "page" | "service") => {
+    // Route to separate pages
+    if (id === "marketplace") { navigate("/marketplace"); return; }
+    
     if (type === "page") {
       setActivePage(id);
       setActiveService(null);

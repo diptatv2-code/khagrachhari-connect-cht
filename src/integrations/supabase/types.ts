@@ -23,6 +23,7 @@ export type Database = {
           google_maps_place_id: string | null
           hours: string | null
           id: string
+          image_url: string | null
           is_open: boolean | null
           name_bn: string
           name_en: string | null
@@ -40,6 +41,7 @@ export type Database = {
           google_maps_place_id?: string | null
           hours?: string | null
           id?: string
+          image_url?: string | null
           is_open?: boolean | null
           name_bn: string
           name_en?: string | null
@@ -57,6 +59,7 @@ export type Database = {
           google_maps_place_id?: string | null
           hours?: string | null
           id?: string
+          image_url?: string | null
           is_open?: boolean | null
           name_bn?: string
           name_en?: string | null
@@ -67,6 +70,92 @@ export type Database = {
           whatsapp?: string | null
         }
         Relationships: []
+      }
+      marketplace_listings: {
+        Row: {
+          category: string
+          condition: string
+          created_at: string
+          description: string | null
+          expires_at: string
+          id: string
+          image_urls: string[] | null
+          location: string
+          phone: string
+          price: number | null
+          price_type: string
+          report_count: number
+          seller_name: string | null
+          status: string
+          title: string
+          whatsapp: string | null
+        }
+        Insert: {
+          category: string
+          condition?: string
+          created_at?: string
+          description?: string | null
+          expires_at?: string
+          id?: string
+          image_urls?: string[] | null
+          location: string
+          phone: string
+          price?: number | null
+          price_type?: string
+          report_count?: number
+          seller_name?: string | null
+          status?: string
+          title: string
+          whatsapp?: string | null
+        }
+        Update: {
+          category?: string
+          condition?: string
+          created_at?: string
+          description?: string | null
+          expires_at?: string
+          id?: string
+          image_urls?: string[] | null
+          location?: string
+          phone?: string
+          price?: number | null
+          price_type?: string
+          report_count?: number
+          seller_name?: string | null
+          status?: string
+          title?: string
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
+      marketplace_reports: {
+        Row: {
+          created_at: string
+          id: string
+          listing_id: string
+          reason: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          listing_id: string
+          reason: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          listing_id?: string
+          reason?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_reports_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

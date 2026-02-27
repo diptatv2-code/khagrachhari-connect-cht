@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { getCategoryStyle } from "@/lib/categoryGradients";
+
 interface Business {
   id: string;
   name_bn: string;
@@ -11,6 +14,7 @@ interface Business {
   hours: string | null;
   rating: string | null;
   tag: string | null;
+  image_url?: string | null;
 }
 
 interface Props {
@@ -18,22 +22,41 @@ interface Props {
   emoji?: string;
 }
 
-const BusinessCard = ({ biz, emoji = "📍" }: Props) => {
+const BusinessCard = ({ biz, emoji }: Props) => {
+  const [imgError, setImgError] = useState(false);
+  const catStyle = getCategoryStyle(biz.category);
+  const displayEmoji = emoji || catStyle.emoji;
+  
   const mapsUrl = biz.google_maps_place_id
     ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(biz.name_bn)}&query_place_id=${biz.google_maps_place_id}`
     : null;
 
+  const hasImage = biz.image_url && !imgError;
+
   return (
     <div className="bg-card rounded-xl shadow-sm overflow-hidden transition-all hover:shadow-md hover:-translate-y-[2px] flex flex-col sm:flex-row lg:flex-col">
       {/* Photo area */}
-      <div className="h-[120px] sm:w-[90px] sm:h-auto sm:min-h-[90px] lg:w-auto lg:h-[120px] bg-muted flex items-center justify-center relative flex-shrink-0">
-        <span className="text-[44px] opacity-45">{emoji}</span>
+      <div
+        className="h-[200px] sm:w-[120px] sm:h-auto sm:min-h-[120px] lg:w-auto lg:h-[200px] flex items-center justify-center relative flex-shrink-0 overflow-hidden"
+        style={!hasImage ? { background: catStyle.gradient } : undefined}
+      >
+        {hasImage ? (
+          <img
+            src={biz.image_url!}
+            alt={biz.name_bn}
+            className="w-full h-full object-cover"
+            loading="lazy"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <span className="text-[64px] opacity-90 drop-shadow-lg">{displayEmoji}</span>
+        )}
         {mapsUrl && (
           <a
             href={mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden lg:block absolute bottom-[7px] right-[7px] bg-black/55 text-primary-foreground text-[10px] font-semibold px-[7px] py-[3px] rounded-[5px] backdrop-blur-sm hover:bg-black/75 transition-colors"
+            className="hidden lg:block absolute bottom-[7px] right-[7px] bg-black/55 text-white text-[10px] font-semibold px-[7px] py-[3px] rounded-[5px] backdrop-blur-sm hover:bg-black/75 transition-colors"
           >
             📷 ছবি দেখুন
           </a>

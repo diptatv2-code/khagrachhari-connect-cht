@@ -7,7 +7,7 @@ const tabs = [
   { id: "home", label: "হোম", emoji: "🏠", type: "page" as const },
   { id: "hotels", label: "হোটেল", emoji: "🏨", type: "page" as const },
   { id: "tourist", label: "পর্যটন", emoji: "🗺️", type: "page" as const },
-  { id: "health", label: "সেবা", emoji: "📋", type: "service" as const },
+  { id: "marketplace", label: "বেচাকেনা", emoji: "🛒", type: "page" as const },
 ];
 
 const BottomNav = ({ activePage, onNavigate }: Props) => {
