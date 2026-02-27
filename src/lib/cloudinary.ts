@@ -35,11 +35,13 @@ export const uploadToCloudinary = async (
     throw new Error("ফাইলের সাইজ ৫MB এর বেশি হতে পারবে না।");
   }
 
+  console.log("Uploading to Cloudinary...", { fileName: file.name, size: file.size });
+
   return new Promise((resolve, reject) => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", UPLOAD_PRESET);
-    formData.append("folder", "amarkgc");
+    formData.append("cloud_name", CLOUD_NAME);
 
     const xhr = new XMLHttpRequest();
     xhr.open("POST", CLOUDINARY_UPLOAD_URL);
@@ -53,13 +55,42 @@ export const uploadToCloudinary = async (
     xhr.onload = () => {
       if (xhr.status === 200) {
         const data = JSON.parse(xhr.responseText);
+        console.log("Upload successful:", data.secure_url);
         resolve({ url: data.secure_url, publicId: data.public_id });
       } else {
-        reject(new Error("আপলোড ব্যর্থ হয়েছে।"));
+        let errMsg = "আপলোড ব্যর্থ হয়েছে।";
+        try {
+          const errData = JSON.parse(xhr.responseText);
+          console.error("Cloudinary error:", errData.error);
+          if (errData.error?.message) errMsg = errData.error.message;
+        } catch { /* ignore */ }
+        // Fallback: try with ml_default preset
+        console.warn("Retrying with ml_default preset...");
+        const fallbackForm = new FormData();
+        fallbackForm.append("file", file);
+        fallbackForm.append("upload_preset", "ml_default");
+        fallbackForm.append("cloud_name", CLOUD_NAME);
+        const xhr2 = new XMLHttpRequest();
+        xhr2.open("POST", CLOUDINARY_UPLOAD_URL);
+        xhr2.onload = () => {
+          if (xhr2.status === 200) {
+            const data2 = JSON.parse(xhr2.responseText);
+            console.log("Upload successful (fallback):", data2.secure_url);
+            resolve({ url: data2.secure_url, publicId: data2.public_id });
+          } else {
+            console.error("Upload failed (both presets):", errMsg);
+            reject(new Error(errMsg));
+          }
+        };
+        xhr2.onerror = () => reject(new Error("নেটওয়ার্ক সমস্যা।"));
+        xhr2.send(fallbackForm);
       }
     };
 
-    xhr.onerror = () => reject(new Error("নেটওয়ার্ক সমস্যা।"));
+    xhr.onerror = () => {
+      console.error("Upload failed: Network error");
+      reject(new Error("নেটওয়ার্ক সমস্যা।"));
+    };
     xhr.send(formData);
   });
 };
