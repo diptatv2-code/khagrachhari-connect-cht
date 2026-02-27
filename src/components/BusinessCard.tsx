@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { getCategoryStyle } from "@/lib/categoryGradients";
+import { optimizeCardUrl } from "@/lib/cloudinary";
 
 interface Business {
   id: string;
@@ -24,6 +25,7 @@ interface Props {
 
 const BusinessCard = ({ biz, emoji }: Props) => {
   const [imgError, setImgError] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
   const catStyle = getCategoryStyle(biz.category);
   const displayEmoji = emoji || catStyle.emoji;
   
@@ -32,6 +34,7 @@ const BusinessCard = ({ biz, emoji }: Props) => {
     : null;
 
   const hasImage = biz.image_url && !imgError;
+  const optimizedSrc = hasImage ? optimizeCardUrl(biz.image_url!) : "";
 
   return (
     <div className="bg-card rounded-xl shadow-sm overflow-hidden transition-all hover:shadow-md hover:-translate-y-[2px] flex flex-col sm:flex-row lg:flex-col">
@@ -40,12 +43,17 @@ const BusinessCard = ({ biz, emoji }: Props) => {
         className="h-[200px] sm:w-[120px] sm:h-auto sm:min-h-[120px] lg:w-auto lg:h-[200px] flex items-center justify-center relative flex-shrink-0 overflow-hidden"
         style={!hasImage ? { background: catStyle.gradient } : undefined}
       >
+        {/* Skeleton */}
+        {hasImage && !imgLoaded && (
+          <div className="absolute inset-0 bg-muted animate-pulse" />
+        )}
         {hasImage ? (
           <img
-            src={biz.image_url!}
+            src={optimizedSrc}
             alt={biz.name_bn}
-            className="w-full h-full object-cover"
+            className={`w-full h-full object-cover transition-opacity duration-300 ${imgLoaded ? "opacity-100" : "opacity-0"}`}
             loading="lazy"
+            onLoad={() => setImgLoaded(true)}
             onError={() => setImgError(true)}
           />
         ) : (

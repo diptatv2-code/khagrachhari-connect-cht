@@ -1,11 +1,21 @@
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { touristSpotsDetailed } from "@/data/touristSpotsDetailed";
+import { cloudinaryFetchUrl } from "@/lib/cloudinary";
+import ImageLightbox from "@/components/ImageLightbox";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
+const optimizePhoto = (url: string, width = 800) => {
+  if (url.startsWith("/")) return url;
+  if (url.includes("res.cloudinary.com")) return url;
+  return cloudinaryFetchUrl(url, width);
+};
 
 const TouristSpotDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const spot = touristSpotsDetailed.find((s) => s.slug === slug);
+  const [lightbox, setLightbox] = useState<number | null>(null);
 
   if (!spot) {
     return (
@@ -28,7 +38,7 @@ const TouristSpotDetail = () => {
       {/* Hero */}
       <div className="relative h-[280px] lg:h-[420px] overflow-hidden">
         <img
-          src={spot.photos[0]}
+          src={optimizePhoto(spot.photos[0], 1200)}
           alt={spot.name}
           className="w-full h-full object-cover"
         />
@@ -54,11 +64,9 @@ const TouristSpotDetail = () => {
           <span className="text-primary font-medium">{spot.name}</span>
         </div>
 
-        {/* Title */}
         <h1 className="font-bangla text-[28px] lg:text-[40px] text-primary leading-tight mb-1">{spot.name}</h1>
         {spot.realName && <p className="text-sm text-muted-foreground mb-4">{spot.realName}</p>}
 
-        {/* Quick Info Pills */}
         <div className="flex flex-wrap gap-2 mb-8">
           <span className="bg-muted text-primary text-xs font-semibold px-3 py-1.5 rounded-full">📍 {spot.location}</span>
           <span className="bg-muted text-primary text-xs font-semibold px-3 py-1.5 rounded-full">📏 {spot.distance}</span>
@@ -66,7 +74,6 @@ const TouristSpotDetail = () => {
           <span className="bg-muted text-primary text-xs font-semibold px-3 py-1.5 rounded-full">🗓️ {spot.bestTime}</span>
         </div>
 
-        {/* Description */}
         <section className="mb-8">
           <h2 className="font-bangla text-xl text-primary mb-3 flex items-center gap-2">
             <span className="w-1 h-5 bg-secondary rounded-sm block" /> বিস্তারিত বিবরণ
@@ -74,7 +81,6 @@ const TouristSpotDetail = () => {
           <p className="text-muted-foreground leading-relaxed">{spot.fullDescription}</p>
         </section>
 
-        {/* History */}
         {spot.history && (
           <section className="mb-8">
             <h2 className="font-bangla text-xl text-primary mb-3 flex items-center gap-2">
@@ -91,19 +97,11 @@ const TouristSpotDetail = () => {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {spot.photos.map((photo, i) => (
-              <div key={i} className="rounded-2xl overflow-hidden h-[180px] lg:h-[200px]">
-                <img
-                  src={photo}
-                  alt={`${spot.name} - ছবি ${i + 1}`}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                  loading="lazy"
-                />
-              </div>
+              <GalleryImage key={i} src={optimizePhoto(photo, 600)} alt={`${spot.name} - ছবি ${i + 1}`} onClick={() => setLightbox(i)} />
             ))}
           </div>
         </section>
 
-        {/* Highlights */}
         <section className="mb-8">
           <h2 className="font-bangla text-xl text-primary mb-3 flex items-center gap-2">
             <span className="w-1 h-5 bg-secondary rounded-sm block" /> বিশেষ আকর্ষণ
@@ -118,7 +116,6 @@ const TouristSpotDetail = () => {
           </div>
         </section>
 
-        {/* How to Reach */}
         <section className="mb-8">
           <h2 className="font-bangla text-xl text-primary mb-3 flex items-center gap-2">
             <span className="w-1 h-5 bg-secondary rounded-sm block" /> কিভাবে যাবেন
@@ -131,7 +128,6 @@ const TouristSpotDetail = () => {
           </div>
         </section>
 
-        {/* Tips */}
         {spot.tips && spot.tips.length > 0 && (
           <section className="mb-8">
             <h2 className="font-bangla text-xl text-primary mb-3 flex items-center gap-2">
@@ -148,7 +144,6 @@ const TouristSpotDetail = () => {
           </section>
         )}
 
-        {/* Back Link */}
         <div className="pt-4 border-t border-border">
           <Link to="/#tourism" className="inline-flex items-center gap-2 text-forest-light font-semibold hover:underline">
             ← সব দর্শনীয় স্থান দেখুন
@@ -157,6 +152,39 @@ const TouristSpotDetail = () => {
       </div>
 
       <Footer />
+
+      {lightbox !== null && (
+        <ImageLightbox
+          images={spot.photos.map((p) => optimizePhoto(p, 1200))}
+          initialIndex={lightbox}
+          onClose={() => setLightbox(null)}
+        />
+      )}
+    </div>
+  );
+};
+
+const GalleryImage = ({ src, alt, onClick }: { src: string; alt: string; onClick: () => void }) => {
+  const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState(false);
+
+  return (
+    <div className="rounded-2xl overflow-hidden h-[180px] lg:h-[200px] cursor-pointer relative" onClick={onClick}>
+      {!loaded && !error && <div className="absolute inset-0 bg-muted animate-pulse" />}
+      {!error ? (
+        <img
+          src={src}
+          alt={alt}
+          className={`w-full h-full object-cover hover:scale-105 transition-all duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
+          loading="lazy"
+          onLoad={() => setLoaded(true)}
+          onError={() => setError(true)}
+        />
+      ) : (
+        <div className="w-full h-full flex items-center justify-center bg-muted">
+          <span className="text-4xl">🏔️</span>
+        </div>
+      )}
     </div>
   );
 };
