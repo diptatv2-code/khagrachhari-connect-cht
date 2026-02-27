@@ -99,9 +99,11 @@ export const categoryGrid = [
 
 export const emergencyNumbers = [
   { label: "পুলিশ", num: "999", emoji: "👮", tel: "999", colorClass: "bg-blue-900" },
-  { label: "ফায়ার সার্ভিস", num: "199", emoji: "🚒", tel: "199", colorClass: "bg-red-700" },
-  { label: "স্বাস্থ্য হটলাইন", num: "16000", emoji: "🏥", tel: "16000", colorClass: "bg-green-800" },
-  { label: "অ্যাম্বুলেন্স", num: "1990", emoji: "🚑", tel: "1990", colorClass: "bg-purple-700" },
+  { label: "ফায়ার সার্ভিস", num: "02333343966", emoji: "🚒", tel: "02333343966", colorClass: "bg-red-700" },
+  { label: "সদর হাসপাতাল", num: "01730-324772", emoji: "🏥", tel: "01730324772", colorClass: "bg-green-800" },
+  { label: "অ্যাম্বুলেন্স", num: "01635-600835", emoji: "🚑", tel: "01635600835", colorClass: "bg-purple-700" },
+  { label: "বিদ্যুৎ অফিস", num: "02333343874", emoji: "⚡", tel: "02333343874", colorClass: "bg-yellow-700" },
+  { label: "ডাক্তার হটলাইন", num: "09611-530530", emoji: "👨‍⚕️", tel: "09611530530", colorClass: "bg-teal-700" },
 ];
 
 export const notices = [

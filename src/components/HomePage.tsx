@@ -1,10 +1,18 @@
+import { useNavigate } from "react-router-dom";
 import { emergencyNumbers, categoryGrid, notices, touristSpotsList } from "@/data/sidebarNav";
 
 interface Props {
   onNavigate: (id: string, type: "page" | "service") => void;
 }
 
+const quickLinks = [
+  { label: "🛒 ক্রয় ও বিক্রয়", sub: "পুরনো জিনিস কিনুন ও বেচুন", route: "/marketplace", gradient: "bg-gradient-to-br from-[#c9a84c] to-[#f0c96a]" },
+  { label: "👨‍⚕️ ডাক্তার তালিকা", sub: "বিশেষজ্ঞ ডাক্তার খুঁজুন", route: "/doctors", gradient: "bg-gradient-to-br from-[#1a3d2b] to-[#2d6a4f]" },
+];
+
 const HomePage = ({ onNavigate }: Props) => {
+  const navigate = useNavigate();
+
   return (
     <div>
       {/* Hero */}
@@ -30,8 +38,8 @@ const HomePage = ({ onNavigate }: Props) => {
               <div className="text-[11px] text-primary-foreground/58">সেবা বিভাগ</div>
             </div>
             <div>
-              <div className="font-serif-bn text-xl lg:text-2xl font-bold text-accent">১৫টি</div>
-              <div className="text-[11px] text-primary-foreground/58">হোটেল</div>
+              <div className="font-serif-bn text-xl lg:text-2xl font-bold text-accent">২৫ জন</div>
+              <div className="text-[11px] text-primary-foreground/58">ডাক্তার</div>
             </div>
           </div>
         </div>
@@ -39,24 +47,35 @@ const HomePage = ({ onNavigate }: Props) => {
 
       {/* Emergency */}
       <SectionHeader title="জরুরি নম্বর" className="animate-fade-up-delay-1" />
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-[9px] lg:gap-[11px] mb-6 animate-fade-up-delay-1">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-[9px] lg:gap-[11px] mb-3 animate-fade-up-delay-1">
         {emergencyNumbers.map((em) => (
           <a
             key={em.tel}
             href={`tel:${em.tel}`}
-            className={`rounded-xl p-4 lg:p-[16px] flex items-center gap-[11px] text-primary-foreground transition-opacity hover:opacity-85 ${
-              em.colorClass === "bg-blue-900" ? "bg-blue-900" :
-              em.colorClass === "bg-red-700" ? "bg-red-700" :
-              em.colorClass === "bg-green-800" ? "bg-green-800" :
-              "bg-purple-700"
-            }`}
+            className={`rounded-xl p-4 lg:p-[16px] flex items-center gap-[11px] text-primary-foreground transition-opacity hover:opacity-85 ${em.colorClass}`}
           >
             <span className="text-[26px]">{em.emoji}</span>
             <div>
               <div className="text-[11px] opacity-80">{em.label}</div>
-              <div className="text-xl font-bold font-mono">{em.num}</div>
+              <div className="text-lg font-bold font-mono leading-tight">{em.num}</div>
             </div>
           </a>
+        ))}
+      </div>
+
+      {/* Quick links */}
+      <div className="grid grid-cols-2 gap-[9px] lg:gap-[11px] mb-6 animate-fade-up-delay-1">
+        {quickLinks.map((ql) => (
+          <button
+            key={ql.route}
+            onClick={() => navigate(ql.route)}
+            className={`rounded-xl p-4 lg:p-[16px] flex items-center gap-[11px] text-white text-left transition-opacity hover:opacity-85 ${ql.gradient}`}
+          >
+            <div>
+              <div className="text-[13px] font-bold">{ql.label}</div>
+              <div className="text-[11px] opacity-80">{ql.sub}</div>
+            </div>
+          </button>
         ))}
       </div>
 

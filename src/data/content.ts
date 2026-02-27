@@ -130,11 +130,16 @@ export const hotels = [
 ];
 
 export const emergencyContacts = [
-  { name: "সদর হাসপাতাল", number: "০৩৭১-৬১২৩৪", emoji: "🏥", color: "bg-red-50" },
+  { name: "সদর হাসপাতাল", number: "01730-324772", emoji: "🏥", color: "bg-red-50" },
   { name: "পুলিশ", number: "999", emoji: "👮", color: "bg-blue-50" },
-  { name: "ফায়ার সার্ভিস", number: "199", emoji: "🚒", color: "bg-orange-50" },
-  { name: "অ্যাম্বুলেন্স", number: "16163", emoji: "🚑", color: "bg-green-50" },
+  { name: "ফায়ার সার্ভিস", number: "02333343966", emoji: "🚒", color: "bg-orange-50" },
+  { name: "অ্যাম্বুলেন্স", number: "01635-600835", emoji: "🚑", color: "bg-green-50" },
   { name: "সরকারি হেল্পলাইন", number: "333", emoji: "📞", color: "bg-purple-50" },
+  { name: "বিদ্যুৎ অফিস", number: "02333343874", emoji: "⚡", color: "bg-yellow-50" },
+  { name: "পার্কসাইড হাসপাতাল", number: "02337714400", emoji: "🏥", color: "bg-red-50" },
+  { name: "খাগড়াছড়ি মেডিকেল সেন্টার", number: "02333343928", emoji: "🏥", color: "bg-red-50" },
+  { name: "স্বনির্ভর ফার্মেসী", number: "02333344007", emoji: "💊", color: "bg-teal-50" },
+  { name: "হেলথ কেয়ার", number: "01891154941", emoji: "🏥", color: "bg-green-50" },
 ];
 
 export const transportInfo = {
