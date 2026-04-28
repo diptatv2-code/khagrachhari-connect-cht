@@ -157,6 +157,254 @@ export type Database = {
           },
         ]
       }
+      food_restaurants: {
+        Row: {
+          id: string
+          name: string
+          name_bn: string | null
+          description: string | null
+          cuisine: string | null
+          rating: number | null
+          delivery_time: string | null
+          delivery_charge: number | null
+          min_order: number | null
+          image_url: string | null
+          phone: string | null
+          address: string | null
+          is_active: boolean | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          name_bn?: string | null
+          description?: string | null
+          cuisine?: string | null
+          rating?: number | null
+          delivery_time?: string | null
+          delivery_charge?: number | null
+          min_order?: number | null
+          image_url?: string | null
+          phone?: string | null
+          address?: string | null
+          is_active?: boolean | null
+          created_at?: string
+        }
+        Update: Partial<Database["public"]["Tables"]["food_restaurants"]["Insert"]>
+        Relationships: []
+      }
+      food_menu_items: {
+        Row: {
+          id: string
+          restaurant_id: string | null
+          name: string
+          name_bn: string | null
+          description: string | null
+          price: number
+          category: string | null
+          image_url: string | null
+          is_available: boolean | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          restaurant_id?: string | null
+          name: string
+          name_bn?: string | null
+          description?: string | null
+          price: number
+          category?: string | null
+          image_url?: string | null
+          is_available?: boolean | null
+          created_at?: string
+        }
+        Update: Partial<Database["public"]["Tables"]["food_menu_items"]["Insert"]>
+        Relationships: []
+      }
+      food_orders: {
+        Row: {
+          id: string
+          restaurant_id: string | null
+          customer_name: string
+          customer_phone: string
+          delivery_address: string
+          items: Json
+          total_amount: number
+          delivery_charge: number | null
+          status: string | null
+          notes: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          restaurant_id?: string | null
+          customer_name: string
+          customer_phone: string
+          delivery_address: string
+          items: Json
+          total_amount: number
+          delivery_charge?: number | null
+          status?: string | null
+          notes?: string | null
+          created_at?: string
+        }
+        Update: Partial<Database["public"]["Tables"]["food_orders"]["Insert"]>
+        Relationships: []
+      }
+      jobs: {
+        Row: {
+          id: string
+          title: string
+          company: string
+          location: string | null
+          job_type: string | null
+          salary_range: string | null
+          description: string
+          requirements: string | null
+          contact_phone: string | null
+          contact_email: string | null
+          application_deadline: string | null
+          status: string | null
+          posted_by_name: string | null
+          posted_by_phone: string | null
+          created_at: string
+          expires_at: string | null
+        }
+        Insert: {
+          id?: string
+          title: string
+          company: string
+          location?: string | null
+          job_type?: string | null
+          salary_range?: string | null
+          description: string
+          requirements?: string | null
+          contact_phone?: string | null
+          contact_email?: string | null
+          application_deadline?: string | null
+          status?: string | null
+          posted_by_name?: string | null
+          posted_by_phone?: string | null
+          created_at?: string
+          expires_at?: string | null
+        }
+        Update: Partial<Database["public"]["Tables"]["jobs"]["Insert"]>
+        Relationships: []
+      }
+      community_posts: {
+        Row: {
+          id: string
+          title: string
+          content: string
+          category: string | null
+          author_name: string
+          author_phone: string | null
+          likes_count: number | null
+          comments_count: number | null
+          is_approved: boolean | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          content: string
+          category?: string | null
+          author_name: string
+          author_phone?: string | null
+          likes_count?: number | null
+          comments_count?: number | null
+          is_approved?: boolean | null
+          created_at?: string
+        }
+        Update: Partial<Database["public"]["Tables"]["community_posts"]["Insert"]>
+        Relationships: []
+      }
+      community_comments: {
+        Row: {
+          id: string
+          post_id: string | null
+          author_name: string
+          content: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          post_id?: string | null
+          author_name: string
+          content: string
+          created_at?: string
+        }
+        Update: Partial<Database["public"]["Tables"]["community_comments"]["Insert"]>
+        Relationships: []
+      }
+      ride_requests: {
+        Row: {
+          id: string
+          passenger_name: string
+          passenger_phone: string
+          pickup_location: string
+          destination: string
+          ride_type: string | null
+          notes: string | null
+          status: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          passenger_name: string
+          passenger_phone: string
+          pickup_location: string
+          destination: string
+          ride_type?: string | null
+          notes?: string | null
+          status?: string | null
+          created_at?: string
+        }
+        Update: Partial<Database["public"]["Tables"]["ride_requests"]["Insert"]>
+        Relationships: []
+      }
+      doctors: {
+        Row: {
+          id: string
+          name: string
+          name_en: string | null
+          specialty: string
+          specialty_key: string | null
+          hospital: string | null
+          upazila: string | null
+          chamber_address: string | null
+          phone: string | null
+          experience_years: number | null
+          rating: number | null
+          visiting_hours: string | null
+          fees: number | null
+          note: string | null
+          image_url: string | null
+          is_active: boolean | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          name_en?: string | null
+          specialty: string
+          specialty_key?: string | null
+          hospital?: string | null
+          upazila?: string | null
+          chamber_address?: string | null
+          phone?: string | null
+          experience_years?: number | null
+          rating?: number | null
+          visiting_hours?: string | null
+          fees?: number | null
+          note?: string | null
+          image_url?: string | null
+          is_active?: boolean | null
+          created_at?: string
+        }
+        Update: Partial<Database["public"]["Tables"]["doctors"]["Insert"]>
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

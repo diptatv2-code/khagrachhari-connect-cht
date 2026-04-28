@@ -25,6 +25,10 @@ const Index = () => {
     // Route to separate pages
     if (id === "marketplace") { navigate("/marketplace"); return; }
     if (id === "doctors") { navigate("/doctors"); return; }
+    if (id === "food") { navigate("/food"); return; }
+    if (id === "jobs") { navigate("/jobs"); return; }
+    if (id === "communityHub") { navigate("/community"); return; }
+    if (id === "ride") { navigate("/ride"); return; }
     
     if (type === "page") {
       setActivePage(id);

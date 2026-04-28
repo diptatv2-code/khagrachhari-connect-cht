@@ -1,4 +1,5 @@
 import { mainNav, sidebarGroups, emergencyNumbers } from "@/data/sidebarNav";
+import GlobalSearch from "@/components/GlobalSearch";
 
 interface Props {
   activePage: string;
@@ -22,15 +23,7 @@ const AppSidebar = ({ activePage, onNavigate }: Props) => {
 
       {/* Search */}
       <div className="px-4 py-3 border-b" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
-        <div className="flex items-center gap-[7px] rounded-[9px] px-[11px] py-2" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.14)' }}>
-          <span className="text-[13px]" style={{ color: 'rgba(255,255,255,0.45)' }}>🔍</span>
-          <input
-            type="text"
-            placeholder="সেবা বা স্থান খুঁজুন..."
-            className="flex-1 bg-transparent border-none outline-none text-white font-sans text-[13px]"
-            style={{ color: '#fff' }}
-          />
-        </div>
+        <GlobalSearch variant="sidebar" />
       </div>
 
       {/* Nav */}

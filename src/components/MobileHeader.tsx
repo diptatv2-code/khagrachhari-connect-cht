@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { mainNav, sidebarGroups, emergencyNumbers } from "@/data/sidebarNav";
+import GlobalSearch from "@/components/GlobalSearch";
 
 interface Props {
   activePage?: string;
@@ -37,14 +38,7 @@ const MobileHeader = ({ activePage = "home", onNavigate }: Props) => {
       </header>
 
       <div className="lg:hidden bg-primary px-[14px] pb-[11px]">
-        <div className="flex items-center gap-[7px] bg-primary-foreground/12 border border-primary-foreground/18 rounded-[9px] px-[11px]">
-          <span className="text-primary-foreground/45 text-[13px]">🔍</span>
-          <input
-            type="text"
-            placeholder="ব্যবসা, সেবা, ডাক্তার খুঁজুন..."
-            className="flex-1 bg-transparent border-none outline-none text-primary-foreground font-sans text-[13px] py-[9px] placeholder:text-primary-foreground/42"
-          />
-        </div>
+        <GlobalSearch variant="mobile" />
       </div>
 
       {/* Mobile Menu Drawer */}

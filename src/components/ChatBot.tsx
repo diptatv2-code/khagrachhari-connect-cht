@@ -4,6 +4,36 @@ type Msg = { role: "user" | "assistant"; content: string };
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-assistant`;
 
+type FaqRule = { keywords: string[]; reply: string };
+
+const faqRules: FaqRule[] = [
+  { keywords: ["জ্বর", "অসুস্থ", "ডাক্তার", "চিকিৎসা", "রোগ", "doctor"], reply: "ডাক্তার বা চিকিৎসা প্রয়োজন? এখানে দেখুন: [ACTION:doctors] অথবা ডাক্তার হটলাইন: 09611-530530" },
+  { keywords: ["জরুরি", "এম্বুলেন্স", "ambulance", "emergency", "999"], reply: "জরুরি নম্বরসমূহ:\n• পুলিশ: 999\n• এম্বুলেন্স: 01635-600835\n• সদর হাসপাতাল: 01730-324772\n• ফায়ার সার্ভিস: 02333343966" },
+  { keywords: ["হোটেল", "থাকার", "আবাসন", "হোস্টেল", "hotel", "stay"], reply: "খাগড়াছড়ির হোটেল ও আবাসন তালিকা: [ACTION:hotels]" },
+  { keywords: ["খাবার", "রেস্তোরাঁ", "রেস্টুরেন্ট", "অর্ডার", "food", "restaurant"], reply: "আপনি অনলাইনে খাবার অর্ডার করতে পারেন: [ACTION:food]" },
+  { keywords: ["চাকরি", "জব", "job", "vacancy", "নিয়োগ"], reply: "খাগড়াছড়ির চাকরির বিজ্ঞাপন দেখুন: [ACTION:jobs]" },
+  { keywords: ["সিএনজি", "cng", "গাড়ি", "জীপ", "মাইক্রো", "ride", "transport"], reply: "রাইড বুক করতে চান? CNG, জীপ, মাইক্রোবাস বুকিং: [ACTION:ride]" },
+  { keywords: ["সাজেক", "আলুটিলা", "রিসাং", "পর্যটন", "ভ্রমণ", "tourist", "tour"], reply: "খাগড়াছড়ির পর্যটন স্থানের তথ্য: [ACTION:tourist]" },
+  { keywords: ["বিকাশ", "নগদ", "রকেট", "mfs", "মোবাইল ব্যাংকিং"], reply: "মোবাইল ব্যাংকিং (বিকাশ/নগদ) এজেন্ট: [ACTION:mfs]" },
+  { keywords: ["ব্যাংক", "atm", "এটিএম", "bank"], reply: "ব্যাংক শাখা ও ATM তালিকা: [ACTION:banks] বা [ACTION:atm]" },
+  { keywords: ["স্কুল", "কলেজ", "school", "college", "কোচিং", "ভর্তি"], reply: "শিক্ষাপ্রতিষ্ঠানের তালিকা: [ACTION:school] বা [ACTION:college]" },
+  { keywords: ["ওষুধ", "ফার্মেসি", "pharmacy", "medicine"], reply: "ফার্মেসি ও ওষুধের দোকান: [ACTION:medicine]" },
+  { keywords: ["কেনাবেচা", "মার্কেটপ্লেস", "marketplace", "পুরনো", "বিক্রয়"], reply: "খাগড়াছড়ির ক্রয়-বিক্রয় মার্কেটপ্লেস: [ACTION:marketplace]" },
+  { keywords: ["কমিউনিটি", "আলোচনা", "খবর", "community", "news"], reply: "কমিউনিটি হাবে আলোচনা ও খবর দেখুন: [ACTION:communityHub]" },
+];
+
+const FALLBACK_REPLY = "এই প্রশ্নের উত্তর আমার কাছে নেই। সরাসরি 01730-324772 (সদর হাসপাতাল) বা 999 (জরুরি) নম্বরে যোগাযোগ করুন।";
+
+const matchFaq = (text: string): string | null => {
+  const lower = text.toLowerCase();
+  for (const rule of faqRules) {
+    for (const kw of rule.keywords) {
+      if (lower.includes(kw.toLowerCase())) return rule.reply;
+    }
+  }
+  return null;
+};
+
 const serviceLabels: Record<string, { label: string; emoji: string }> = {
   health: { label: "হাসপাতাল ও ক্লিনিক", emoji: "🏥" },
   medicine: { label: "ওষুধের দোকান", emoji: "💊" },
@@ -25,6 +55,10 @@ const serviceLabels: Record<string, { label: string; emoji: string }> = {
   tourist: { label: "পর্যটন স্থান", emoji: "🗺️" },
   doctors: { label: "ডাক্তার তালিকা", emoji: "👨‍⚕️" },
   marketplace: { label: "ক্রয় ও বিক্রয়", emoji: "🛒" },
+  food: { label: "খাবার অর্ডার", emoji: "🍽️" },
+  jobs: { label: "চাকরির সুযোগ", emoji: "💼" },
+  communityHub: { label: "কমিউনিটি হাব", emoji: "💬" },
+  ride: { label: "রাইড বুকিং", emoji: "🚖" },
 };
 
 interface ChatBotProps {
@@ -45,7 +79,7 @@ const ChatBot = ({ onNavigate }: ChatBotProps) => {
   }, [messages, open]);
 
   const handleNavigate = (id: string) => {
-    const pageIds = ["hotels", "tourist", "home", "doctors", "marketplace"];
+    const pageIds = ["hotels", "tourist", "home", "doctors", "marketplace", "food", "jobs", "communityHub", "ride"];
     if (onNavigate) {
       onNavigate(id, pageIds.includes(id) ? "page" : "service");
       setOpen(false);
@@ -108,8 +142,8 @@ const ChatBot = ({ onNavigate }: ChatBotProps) => {
       });
 
       if (!resp.ok || !resp.body) {
-        const errData = await resp.json().catch(() => ({}));
-        upsertAssistant(errData.error || "দুঃখিত, একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+        const faq = matchFaq(trimmed);
+        upsertAssistant(faq ?? FALLBACK_REPLY);
         setIsLoading(false);
         return;
       }
@@ -144,7 +178,8 @@ const ChatBot = ({ onNavigate }: ChatBotProps) => {
       }
     } catch (e) {
       console.error(e);
-      upsertAssistant("দুঃখিত, সংযোগে সমস্যা হয়েছে।");
+      const faq = matchFaq(trimmed);
+      upsertAssistant(faq ?? FALLBACK_REPLY);
     }
     setIsLoading(false);
   };

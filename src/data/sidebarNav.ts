@@ -16,6 +16,10 @@ export const mainNav: SidebarNavItem[] = [
   { id: "hotels", label: "হোটেল ও আবাসন", emoji: "🏨", count: "১৫", type: "page" },
   { id: "tourist", label: "পর্যটন স্থান", emoji: "🗺️", count: "৬", type: "page" },
   { id: "doctors", label: "ডাক্তার তালিকা", emoji: "👨‍⚕️", count: "২৫", type: "page" },
+  { id: "food", label: "খাবার অর্ডার", emoji: "🍽️", type: "page" },
+  { id: "ride", label: "রাইড বুকিং", emoji: "🚖", type: "page" },
+  { id: "jobs", label: "চাকরি", emoji: "💼", type: "page" },
+  { id: "communityHub", label: "কমিউনিটি", emoji: "💬", type: "page" },
   { id: "marketplace", label: "ক্রয় ও বিক্রয়", emoji: "🛒", type: "page" },
 ];
 
@@ -95,6 +99,10 @@ export const categoryGrid = [
   { id: "marketplace", label: "ক্রয় ও বিক্রয়", sub: "কিনুন ও বেচুন", emoji: "🛒", type: "page" as const },
   { id: "hotels", label: "হোটেল ও আবাসন", sub: "১৫টি হোটেল", emoji: "🏨", type: "page" as const },
   { id: "tourist", label: "পর্যটন স্থান", sub: "আলুটিলা, সাজেক", emoji: "🗺️", type: "page" as const },
+  { id: "food", label: "খাবার অর্ডার দিন", sub: "৫টি রেস্টুরেন্ট", emoji: "🍽️", type: "page" as const },
+  { id: "ride", label: "রাইড বুকিং", sub: "CNG, জীপ, বাস", emoji: "🚖", type: "page" as const },
+  { id: "jobs", label: "চাকরির সুযোগ", sub: "লোক খুঁজছেন?", emoji: "💼", type: "page" as const },
+  { id: "communityHub", label: "কমিউনিটি হাব", sub: "আলোচনা ও খবর", emoji: "💬", type: "page" as const },
 ];
 
 export const emergencyNumbers = [

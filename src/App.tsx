@@ -11,6 +11,10 @@ import Marketplace from "./pages/Marketplace";
 import Admin from "./pages/Admin";
 import Doctors from "./pages/Doctors";
 import ListingDetail from "./pages/ListingDetail";
+import Food from "./pages/Food";
+import Jobs from "./pages/Jobs";
+import CommunityHub from "./pages/CommunityHub";
+import Ride from "./pages/Ride";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +31,10 @@ const App = () => (
           <Route path="/marketplace" element={<Marketplace />} />
           <Route path="/listing/:id" element={<ListingDetail />} />
           <Route path="/doctors" element={<Doctors />} />
+          <Route path="/food" element={<Food />} />
+          <Route path="/jobs" element={<Jobs />} />
+          <Route path="/community" element={<CommunityHub />} />
+          <Route path="/ride" element={<Ride />} />
           <Route path="/admin" element={<Admin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

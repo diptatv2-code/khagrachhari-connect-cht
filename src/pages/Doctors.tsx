@@ -1,55 +1,49 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ChatBot from "@/components/ChatBot";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Doctor {
+  id?: string;
   name: string;
   specialty: string;
-  specialtyKey: string;
-  hospital: string;
-  upazila: string;
-  phone: string;
-  experience: string;
-  rating: string;
-  note?: string;
+  specialty_key: string | null;
+  hospital: string | null;
+  upazila: string | null;
+  phone: string | null;
+  experience_years: number | null;
+  rating: number | null;
+  note?: string | null;
 }
 
-const doctors: Doctor[] = [
-  // সাধারণ চিকিৎসা
-  { name: "ডা. মো. শাহ আলম", specialty: "সাধারণ চিকিৎসা", specialtyKey: "সাধারণ", hospital: "খাগড়াছড়ি সদর হাসপাতাল", upazila: "খাগড়াছড়ি সদর", phone: "01711-223344", experience: "১২", rating: "৪.৮" },
-  { name: "ডা. রিপল বাপ্পি চাকমা", specialty: "সাধারণ চিকিৎসা", specialtyKey: "সাধারণ", hospital: "খাগড়াছড়ি সদর হাসপাতাল", upazila: "খাগড়াছড়ি সদর", phone: "01716-802488", experience: "৫", rating: "৪.৬" },
-  { name: "ডা. মিল্টন বড়ুয়া", specialty: "সাধারণ চিকিৎসা", specialtyKey: "সাধারণ", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01911-771116", experience: "১৫", rating: "৪.৯" },
-  { name: "ডা. পূর্ণ জীবন চাকমা", specialty: "সাধারণ চিকিৎসা", specialtyKey: "সাধারণ", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01926-005043", experience: "১০", rating: "৪.৮" },
-  { name: "ডা. করাইশী", specialty: "সাধারণ চিকিৎসা", specialtyKey: "সাধারণ", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01814-388489", experience: "৮", rating: "৪.৭" },
-  { name: "ডা. অনুতোষ চাকমা", specialty: "সাধারণ চিকিৎসা", specialtyKey: "সাধারণ", hospital: "পানছড়ি উপজেলা স্বাস্থ্য কমপ্লেক্স", upazila: "পানছড়ি", phone: "01553457605", experience: "৬", rating: "৪.৫" },
-  { name: "ডা. সুমন চাকমা", specialty: "সাধারণ চিকিৎসা", specialtyKey: "সাধারণ", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01748-851318", experience: "৭", rating: "৪.৬" },
-  { name: "ডা. বিজন চন্দ্র তালুকদার", specialty: "সাধারণ চিকিৎসা", specialtyKey: "সাধারণ", hospital: "পার্কহিল ক্লিনিক", upazila: "খাগড়াছড়ি সদর", phone: "01715-678901", experience: "১৪", rating: "৪.৯", note: "লিভার ও গ্যাস্ট্রোএন্টারোলজি" },
-  { name: "ডা. সংগীতা চাকমা", specialty: "সাধারণ চিকিৎসা", specialtyKey: "সাধারণ", hospital: "খাগড়াছড়ি স্কিন কেয়ার সেন্টার", upazila: "খাগড়াছড়ি সদর", phone: "01823-456789", experience: "৮", rating: "৪.৭", note: "চর্ম রোগ" },
-  // গাইনি
-  { name: "ডা. জয়া চাকমা", specialty: "গাইনি বিশেষজ্ঞ", specialtyKey: "গাইনি", hospital: "দীঘিনালা উপজেলা স্বাস্থ্য কমপ্লেক্স", upazila: "দীঘিনালা", phone: "01556-565202", experience: "১১", rating: "৪.৯" },
-  { name: "ডা. অশুতোষ চাকমা", specialty: "গাইনি বিশেষজ্ঞ", specialtyKey: "গাইনি", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01556-771746", experience: "৯", rating: "৪.৭" },
-  { name: "ডা. রোশন আরা বেগম", specialty: "গাইনি বিশেষজ্ঞ", specialtyKey: "গাইনি", hospital: "খাগড়াছড়ি মহিলা হাসপাতাল", upazila: "খাগড়াছড়ি সদর", phone: "01713-453244", experience: "১০", rating: "৪.৮" },
-  // শিশু
-  { name: "ডা. রাজেন্দ্র ত্রিপুরা", specialty: "শিশু রোগ বিশেষজ্ঞ", specialtyKey: "শিশু", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01557-381966", experience: "১৪", rating: "৪.৯" },
-  { name: "ডা. ওমর ফারুক", specialty: "শিশু রোগ বিশেষজ্ঞ", specialtyKey: "শিশু", hospital: "মাটিরাঙ্গা উপজেলা স্বাস্থ্য কমপ্লেক্স", upazila: "মাটিরাঙ্গা", phone: "01823-105034", experience: "৮", rating: "৪.৭" },
-  { name: "ডা. সমাদ", specialty: "শিশু রোগ বিশেষজ্ঞ", specialtyKey: "শিশু", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01711-134674", experience: "৭", rating: "৪.৬" },
-  // সার্জারি
-  { name: "ডা. তুতুল চাকমা", specialty: "সার্জারি বিশেষজ্ঞ", specialtyKey: "সার্জারি", hospital: "খাগড়াছড়ি সদর হাসপাতাল", upazila: "খাগড়াছড়ি সদর", phone: "01557-198040", experience: "১৩", rating: "৪.৮", note: "BMA General Secretary" },
-  { name: "ডা. দিগন্ত চাকমা", specialty: "সার্জারি বিশেষজ্ঞ", specialtyKey: "সার্জারি", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01760-376056", experience: "৯", rating: "৪.৭" },
-  // অর্থোপেডিক
-  { name: "ডা. নয়ন ময় ত্রিপুরা", specialty: "অর্থোপেডিক বিশেষজ্ঞ", specialtyKey: "অর্থোপেডিক", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01814-160039", experience: "১২", rating: "৪.৯", note: "অর্থোপেডিক ও পেডিয়াট্রিক ট্রমা সার্জন" },
-  { name: "ডা. শুভল জ্যোতি চাকমা", specialty: "অর্থোপেডিক বিশেষজ্ঞ", specialtyKey: "অর্থোপেডিক", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01818-233381", experience: "১১", rating: "৪.৮", note: "অর্থোপেডিক ও প্লাস্টিক সার্জন" },
-  // নাক-কান-গলা
-  { name: "ডা. মিটন চাকমা", specialty: "নাক-কান-গলা বিশেষজ্ঞ", specialtyKey: "নাক-কান-গলা", hospital: "খাগড়াছড়ি সদর হাসপাতাল", upazila: "খাগড়াছড়ি সদর", phone: "01715-298247", experience: "১২", rating: "৪.৮", note: "Head Neck Surgeon, Deputy Civil Surgeon" },
-  // চক্ষু
-  { name: "ডা. আলাউদ্দিন", specialty: "চক্ষু বিশেষজ্ঞ", specialtyKey: "চক্ষু", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01816-237970", experience: "১০", rating: "৪.৭" },
-  { name: "ডা. রতন খিসা", specialty: "চক্ষু বিশেষজ্ঞ", specialtyKey: "চক্ষু", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01819-724807", experience: "৭", rating: "৪.৬" },
-  // দাঁত
-  { name: "ডা. সুপর্ণা খিসা", specialty: "দাঁতের চিকিৎসা", specialtyKey: "দাঁত", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01553-493603", experience: "৯", rating: "৪.৮" },
-  { name: "ডা. মৃদুল কান্তি ত্রিপুরা", specialty: "দাঁতের চিকিৎসা", specialtyKey: "দাঁত", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01553-322249", experience: "৮", rating: "৪.৭" },
-  { name: "ডা. নিউটন চাকমা", specialty: "দাঁতের চিকিৎসা", specialtyKey: "দাঁত", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01830-579121", experience: "৬", rating: "৪.৬" },
+const fallbackDoctors: Doctor[] = [
+  { name: "ডা. মো. শাহ আলম", specialty: "সাধারণ চিকিৎসা", specialty_key: "সাধারণ", hospital: "খাগড়াছড়ি সদর হাসপাতাল", upazila: "খাগড়াছড়ি সদর", phone: "01711-223344", experience_years: 12, rating: 4.8 },
+  { name: "ডা. রিপল বাপ্পি চাকমা", specialty: "সাধারণ চিকিৎসা", specialty_key: "সাধারণ", hospital: "খাগড়াছড়ি সদর হাসপাতাল", upazila: "খাগড়াছড়ি সদর", phone: "01716-802488", experience_years: 5, rating: 4.6 },
+  { name: "ডা. মিল্টন বড়ুয়া", specialty: "সাধারণ চিকিৎসা", specialty_key: "সাধারণ", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01911-771116", experience_years: 15, rating: 4.9 },
+  { name: "ডা. পূর্ণ জীবন চাকমা", specialty: "সাধারণ চিকিৎসা", specialty_key: "সাধারণ", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01926-005043", experience_years: 10, rating: 4.8 },
+  { name: "ডা. করাইশী", specialty: "সাধারণ চিকিৎসা", specialty_key: "সাধারণ", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01814-388489", experience_years: 8, rating: 4.7 },
+  { name: "ডা. অনুতোষ চাকমা", specialty: "সাধারণ চিকিৎসা", specialty_key: "সাধারণ", hospital: "পানছড়ি উপজেলা স্বাস্থ্য কমপ্লেক্স", upazila: "পানছড়ি", phone: "01553457605", experience_years: 6, rating: 4.5 },
+  { name: "ডা. সুমন চাকমা", specialty: "সাধারণ চিকিৎসা", specialty_key: "সাধারণ", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01748-851318", experience_years: 7, rating: 4.6 },
+  { name: "ডা. বিজন চন্দ্র তালুকদার", specialty: "সাধারণ চিকিৎসা", specialty_key: "সাধারণ", hospital: "পার্কহিল ক্লিনিক", upazila: "খাগড়াছড়ি সদর", phone: "01715-678901", experience_years: 14, rating: 4.9, note: "লিভার ও গ্যাস্ট্রোএন্টারোলজি" },
+  { name: "ডা. সংগীতা চাকমা", specialty: "সাধারণ চিকিৎসা", specialty_key: "সাধারণ", hospital: "খাগড়াছড়ি স্কিন কেয়ার সেন্টার", upazila: "খাগড়াছড়ি সদর", phone: "01823-456789", experience_years: 8, rating: 4.7, note: "চর্ম রোগ" },
+  { name: "ডা. জয়া চাকমা", specialty: "গাইনি বিশেষজ্ঞ", specialty_key: "গাইনি", hospital: "দীঘিনালা উপজেলা স্বাস্থ্য কমপ্লেক্স", upazila: "দীঘিনালা", phone: "01556-565202", experience_years: 11, rating: 4.9 },
+  { name: "ডা. অশুতোষ চাকমা", specialty: "গাইনি বিশেষজ্ঞ", specialty_key: "গাইনি", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01556-771746", experience_years: 9, rating: 4.7 },
+  { name: "ডা. রোশন আরা বেগম", specialty: "গাইনি বিশেষজ্ঞ", specialty_key: "গাইনি", hospital: "খাগড়াছড়ি মহিলা হাসপাতাল", upazila: "খাগড়াছড়ি সদর", phone: "01713-453244", experience_years: 10, rating: 4.8 },
+  { name: "ডা. রাজেন্দ্র ত্রিপুরা", specialty: "শিশু রোগ বিশেষজ্ঞ", specialty_key: "শিশু", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01557-381966", experience_years: 14, rating: 4.9 },
+  { name: "ডা. ওমর ফারুক", specialty: "শিশু রোগ বিশেষজ্ঞ", specialty_key: "শিশু", hospital: "মাটিরাঙ্গা উপজেলা স্বাস্থ্য কমপ্লেক্স", upazila: "মাটিরাঙ্গা", phone: "01823-105034", experience_years: 8, rating: 4.7 },
+  { name: "ডা. সমাদ", specialty: "শিশু রোগ বিশেষজ্ঞ", specialty_key: "শিশু", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01711-134674", experience_years: 7, rating: 4.6 },
+  { name: "ডা. তুতুল চাকমা", specialty: "সার্জারি বিশেষজ্ঞ", specialty_key: "সার্জারি", hospital: "খাগড়াছড়ি সদর হাসপাতাল", upazila: "খাগড়াছড়ি সদর", phone: "01557-198040", experience_years: 13, rating: 4.8, note: "BMA General Secretary" },
+  { name: "ডা. দিগন্ত চাকমা", specialty: "সার্জারি বিশেষজ্ঞ", specialty_key: "সার্জারি", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01760-376056", experience_years: 9, rating: 4.7 },
+  { name: "ডা. নয়ন ময় ত্রিপুরা", specialty: "অর্থোপেডিক বিশেষজ্ঞ", specialty_key: "অর্থোপেডিক", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01814-160039", experience_years: 12, rating: 4.9, note: "অর্থোপেডিক ও পেডিয়াট্রিক ট্রমা সার্জন" },
+  { name: "ডা. শুভল জ্যোতি চাকমা", specialty: "অর্থোপেডিক বিশেষজ্ঞ", specialty_key: "অর্থোপেডিক", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01818-233381", experience_years: 11, rating: 4.8, note: "অর্থোপেডিক ও প্লাস্টিক সার্জন" },
+  { name: "ডা. মিটন চাকমা", specialty: "নাক-কান-গলা বিশেষজ্ঞ", specialty_key: "নাক-কান-গলা", hospital: "খাগড়াছড়ি সদর হাসপাতাল", upazila: "খাগড়াছড়ি সদর", phone: "01715-298247", experience_years: 12, rating: 4.8, note: "Head Neck Surgeon, Deputy Civil Surgeon" },
+  { name: "ডা. আলাউদ্দিন", specialty: "চক্ষু বিশেষজ্ঞ", specialty_key: "চক্ষু", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01816-237970", experience_years: 10, rating: 4.7 },
+  { name: "ডা. রতন খিসা", specialty: "চক্ষু বিশেষজ্ঞ", specialty_key: "চক্ষু", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01819-724807", experience_years: 7, rating: 4.6 },
+  { name: "ডা. সুপর্ণা খিসা", specialty: "দাঁতের চিকিৎসা", specialty_key: "দাঁত", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01553-493603", experience_years: 9, rating: 4.8 },
+  { name: "ডা. মৃদুল কান্তি ত্রিপুরা", specialty: "দাঁতের চিকিৎসা", specialty_key: "দাঁত", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01553-322249", experience_years: 8, rating: 4.7 },
+  { name: "ডা. নিউটন চাকমা", specialty: "দাঁতের চিকিৎসা", specialty_key: "দাঁত", hospital: "প্রাইভেট চেম্বার", upazila: "খাগড়াছড়ি সদর", phone: "01830-579121", experience_years: 6, rating: 4.6 },
 ];
 
 const specialties = [
@@ -78,15 +72,42 @@ const specialtyColors: Record<string, string> = {
 };
 
 const Doctors = () => {
+  const navigate = useNavigate();
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [loading, setLoading] = useState(true);
   const [specFilter, setSpecFilter] = useState("সব");
   const [upazilaFilter, setUpazilaFilter] = useState("সব");
-  const navigate = useNavigate();
+  const [search, setSearch] = useState("");
+  const [active, setActive] = useState<Doctor | null>(null);
 
-  const filtered = doctors.filter((d) => {
-    if (specFilter !== "সব" && d.specialtyKey !== specFilter) return false;
-    if (upazilaFilter !== "সব" && d.upazila !== upazilaFilter) return false;
-    return true;
-  });
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("doctors")
+        .select("*")
+        .eq("is_active", true)
+        .order("rating", { ascending: false });
+      if (error || !data || data.length === 0) {
+        setDoctors(fallbackDoctors);
+      } else {
+        setDoctors(data as Doctor[]);
+      }
+      setLoading(false);
+    })();
+  }, []);
+
+  const filtered = useMemo(() => {
+    return doctors.filter((d) => {
+      if (specFilter !== "সব" && d.specialty_key !== specFilter) return false;
+      if (upazilaFilter !== "সব" && d.upazila !== upazilaFilter) return false;
+      if (search) {
+        const q = search.toLowerCase();
+        if (!d.name.toLowerCase().includes(q) && !(d.hospital ?? "").toLowerCase().includes(q)) return false;
+      }
+      return true;
+    });
+  }, [doctors, specFilter, upazilaFilter, search]);
 
   const getInitials = (name: string) => {
     const parts = name.replace(/ডা\.\s*/, "").split(" ");
@@ -103,7 +124,6 @@ const Doctors = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      {/* Emergency Bar */}
       <div className="bg-red-900 text-white py-3">
         <div className="max-w-[1280px] mx-auto px-4 lg:px-10 flex flex-wrap items-center justify-center gap-4 lg:gap-8 text-xs lg:text-sm font-semibold">
           <a href="tel:09611530530" className="flex items-center gap-1.5 hover:opacity-80">🚑 ডাক্তার হটলাইন: <span className="font-mono">09611-530530</span></a>
@@ -112,7 +132,6 @@ const Doctors = () => {
         </div>
       </div>
 
-      {/* AI Guidance Banner */}
       <div className="bg-gradient-to-r from-primary to-[hsl(var(--green-mid))] py-6">
         <div className="max-w-[1280px] mx-auto px-4 lg:px-10 flex flex-col lg:flex-row items-center justify-between gap-4">
           <div className="text-primary-foreground text-center lg:text-left">
@@ -130,9 +149,16 @@ const Doctors = () => {
 
       <div className="max-w-[1280px] mx-auto px-4 lg:px-10 py-6">
         <h1 className="font-bangla text-2xl lg:text-3xl text-primary mb-2">👨‍⚕️ ডাক্তার তালিকা — খাগড়াছড়ি</h1>
-        <p className="text-sm text-muted-foreground mb-6">মোট ২৫ জন বিশেষজ্ঞ ডাক্তারের তথ্য ও যোগাযোগ</p>
+        <p className="text-sm text-muted-foreground mb-4">মোট {doctors.length} জন বিশেষজ্ঞ ডাক্তারের তথ্য ও যোগাযোগ</p>
 
-        {/* Specialty Filter */}
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="ডাক্তারের নাম বা হাসপাতাল খুঁজুন..."
+          className="w-full bg-card border border-border rounded-xl px-4 py-3 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-primary/30"
+        />
+
         <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-3">
           {specialties.map((s) => (
             <button
@@ -149,7 +175,6 @@ const Doctors = () => {
           ))}
         </div>
 
-        {/* Upazila Filter */}
         <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-4 mt-2">
           {upazilas.map((u) => (
             <button
@@ -166,57 +191,93 @@ const Doctors = () => {
           ))}
         </div>
 
-        {/* Count */}
         <p className="text-xs text-muted-foreground mb-4">ফলাফল: {filtered.length} জন ডাক্তার</p>
 
-        {/* Doctor Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {filtered.map((doc, i) => {
-            const colorCls = specialtyColors[doc.specialtyKey] || "bg-green-100 text-green-800";
-            return (
-              <div key={i} className="bg-card rounded-2xl border border-border p-4 hover:shadow-md transition-shadow">
-                <div className="flex items-start gap-3.5">
-                  <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-lg font-bold text-primary flex-shrink-0">
-                    {getInitials(doc.name)}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-base font-bold text-primary">{doc.name}</h3>
-                    <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-full mt-1 ${colorCls}`}>
-                      {doc.specialty}
-                    </span>
-                    <div className="mt-2 space-y-1 text-xs text-muted-foreground">
-                      <div>🏥 {doc.hospital}</div>
-                      <div>📍 {doc.upazila}</div>
-                      <div>⏳ {doc.experience} বছরের অভিজ্ঞতা</div>
-                      <div>⭐ {doc.rating}/৫</div>
-                      {doc.note && <div className="italic text-primary/70">💡 {doc.note}</div>}
+        {loading ? (
+          <div className="text-center py-12 text-muted-foreground text-sm">লোড হচ্ছে...</div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {filtered.map((doc, i) => {
+              const colorCls = specialtyColors[doc.specialty_key ?? ""] || "bg-green-100 text-green-800";
+              return (
+                <div key={doc.id ?? i} className="bg-card rounded-2xl border border-border p-4 hover:shadow-md transition-shadow">
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-lg font-bold text-primary flex-shrink-0">
+                      {getInitials(doc.name)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-base font-bold text-primary">{doc.name}</h3>
+                      <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-full mt-1 ${colorCls}`}>
+                        {doc.specialty}
+                      </span>
+                      <div className="mt-2 space-y-1 text-xs text-muted-foreground">
+                        <div>🏥 {doc.hospital}</div>
+                        <div>📍 {doc.upazila}</div>
+                        {doc.experience_years != null && <div>⏳ {doc.experience_years} বছরের অভিজ্ঞতা</div>}
+                        {doc.rating != null && <div>⭐ {doc.rating}/৫</div>}
+                        {doc.note && <div className="italic text-primary/70">💡 {doc.note}</div>}
+                      </div>
                     </div>
                   </div>
+                  <div className="flex gap-2 mt-3 pt-3 border-t border-border">
+                    <button onClick={() => setActive(doc)}
+                      className="flex-1 py-2 rounded-lg text-[11px] font-semibold flex items-center justify-center gap-1 bg-amber-50 text-amber-800 hover:bg-amber-100 transition-colors">
+                      📅 অ্যাপয়েন্টমেন্ট
+                    </button>
+                    {doc.phone && (
+                      <a href={`tel:${doc.phone.replace(/[^0-9]/g, "")}`}
+                        className="flex-1 py-2 rounded-lg text-[11px] font-semibold flex items-center justify-center gap-1 bg-blue-50 text-blue-800 hover:bg-blue-100 transition-colors">
+                        📞 ফোন করুন
+                      </a>
+                    )}
+                    {doc.phone && (
+                      <a href={makeWaUrl(doc.phone)} target="_blank" rel="noopener noreferrer"
+                        className="flex-1 py-2 rounded-lg text-[11px] font-semibold flex items-center justify-center gap-1 text-white transition-opacity hover:opacity-90"
+                        style={{ background: "#25d366" }}>
+                        💬 WhatsApp
+                      </a>
+                    )}
+                  </div>
                 </div>
-                <div className="flex gap-2 mt-3 pt-3 border-t border-border">
-                  <a
-                    href={`tel:${doc.phone.replace(/[^0-9]/g, "")}`}
-                    className="flex-1 py-2 rounded-lg text-[11px] font-semibold flex items-center justify-center gap-1 bg-blue-50 text-blue-800 hover:bg-blue-100 transition-colors"
-                  >
-                    📞 ফোন করুন
-                  </a>
-                  <a
-                    href={makeWaUrl(doc.phone)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 py-2 rounded-lg text-[11px] font-semibold flex items-center justify-center gap-1 text-white transition-opacity hover:opacity-90"
-                    style={{ background: "#25d366" }}
-                  >
-                    💬 WhatsApp
-                  </a>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
+      {active && (
+        <div className="fixed inset-0 z-[300] bg-black/60 flex items-end lg:items-center justify-center p-0 lg:p-4" onClick={() => setActive(null)}>
+          <div onClick={(e) => e.stopPropagation()} className="bg-card w-full lg:max-w-[480px] rounded-t-3xl lg:rounded-2xl p-5">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="font-bangla text-lg text-primary">{active.name}</h2>
+              <button onClick={() => setActive(null)} className="text-muted-foreground text-lg">✕</button>
+            </div>
+            <p className="text-sm text-muted-foreground mb-3">অ্যাপয়েন্টমেন্ট নিতে নিচের নম্বরে কল বা WhatsApp করুন:</p>
+            <div className="bg-muted rounded-xl p-3 text-sm space-y-1 mb-4">
+              <div>🏥 {active.hospital}</div>
+              <div>📍 {active.upazila}</div>
+              <div>📞 <strong className="font-mono">{active.phone}</strong></div>
+            </div>
+            <div className="flex gap-2">
+              {active.phone && (
+                <>
+                  <a href={`tel:${active.phone.replace(/[^0-9]/g, "")}`}
+                    className="flex-1 py-3 rounded-xl bg-primary text-primary-foreground text-sm font-bold text-center">
+                    📞 ফোন করুন
+                  </a>
+                  <a href={makeWaUrl(active.phone)} target="_blank" rel="noopener noreferrer"
+                    className="flex-1 py-3 rounded-xl text-white text-sm font-bold text-center" style={{ background: "#25d366" }}>
+                    💬 WhatsApp
+                  </a>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       <Footer />
+      <ChatBot />
     </div>
   );
 };
